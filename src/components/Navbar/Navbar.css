@@ -9,8 +9,15 @@
   padding: 5px;
 }
 
-.navbar-title {
+.navbar-title-ContectUs {
   flex: 2;
+  color: #111;
+}
+
+.navbar-divider {
+  height: 20px;
+  width: 1px;
+  background: rgba(128, 128, 128, 0.636);
 }
 
 .navbar-img-container {
