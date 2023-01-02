@@ -1,0 +1,30 @@
+.navbar-container {
+  background: #0185f854;
+  box-shadow: 0px 5px 7px 0px #0550925c;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-direction: row-reverse;
+
+  padding: 5px;
+}
+
+.navbar-title {
+  flex: 2;
+}
+
+.navbar-img-container {
+  display: flex;
+  align-items: center;
+
+  background: #0185f8a6;
+  border-radius: 100%;
+  width: 30px;
+  height: 30px;
+  padding: 5px;
+}
+
+.navbar-img-icon {
+  width: 25px;
+  height: 25px;
+}
