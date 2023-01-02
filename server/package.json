@@ -1,0 +1,64 @@
+{
+  "name": "node.js-express",
+  "version": "1.0.0",
+  "description": "Express server - Node.js with Javascript",
+  "main": "src/app.js",
+  "scripts": {
+    "dev": "nodemon src/app.js",
+    "test": "jest",
+    "test:unit": "jest unit",
+    "test:int": "jest int",
+    "test:coverage": "jest --coverage",
+    "prepare": "husky install"
+  },
+  "keywords": [
+    "Javascript",
+    "Node"
+  ],
+  "author": "Tal-Chen Ben-Eliyahu and Moshe Peretz",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/dotenv-safe": "^8.1.2",
+    "@types/jest": "^27.0.1",
+    "@types/node": "^16.7.9",
+    "commitizen": "^4.2.4",
+    "cz-conventional-changelog": "^3.3.0",
+    "eslint": "^7.32.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-eslint-comments": "^3.2.0",
+    "eslint-plugin-import": "^2.24.2",
+    "eslint-plugin-jest": "^24.4.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-promise": "^5.1.0",
+    "husky": "^7.0.2",
+    "jest": "^27.1.0",
+    "lint-staged": "^11.1.2",
+    "nodemon": "^2.0.12",
+    "prettier": "^2.3.2"
+  },
+  "dependencies": {
+    "bcrypt": "^5.1.0",
+    "body-parser": "^1.20.0",
+    "console-stamp": "^3.1.0",
+    "cors": "^2.8.5",
+    "crypto-hash": "^2.0.1",
+    "dotenv": "^16.0.3",
+    "dotenv-safe": "^8.2.0",
+    "express": "^4.18.1",
+    "express-session": "^1.17.3",
+    "express-winston": "^4.2.0",
+    "helmet": "^6.0.1",
+    "mongodb": "^4.13.0",
+    "mongoose": "^6.8.2",
+    "morgan": "^1.10.0",
+    "nodemailer": "^6.8.0",
+    "response-time": "^2.3.2",
+    "winston": "^3.8.2"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  }
+}
