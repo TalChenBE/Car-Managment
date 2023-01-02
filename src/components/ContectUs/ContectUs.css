@@ -1,0 +1,157 @@
+body {
+  background: #2380cd27;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  font-family: "Open Sans", sans-serif;
+  color: #333333;
+}
+
+.contact-page {
+  margin: 50px auto;
+  width: 60%;
+  background: #ffffff;
+  border-radius: 10px;
+  overflow: hidden;
+  display: flex;
+  flex: 1 1 100%;
+  align-items: stretch;
+  justify-content: space-between;
+  box-shadow: 0 0 20px 6px lightblue;
+  margin-top: 100px;
+}
+@media (max-width: 1250px) {
+  .contact-page {
+    flex-flow: wrap;
+    text-align: center;
+    align-content: center;
+    align-items: center;
+  }
+}
+@media (max-width: 630px) {
+  .contact-page {
+    width: 90%;
+  }
+}
+
+.contact-page .left {
+  color: #ffffff;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-image: url("https://img.lovepik.com/background/20211021/large/lovepik-simple-technology-background-image_401691138.jpg");
+  overflow: hidden;
+  width: 100%;
+}
+.contact-page .left .overlay {
+  padding: 40px;
+  width: 100%;
+  height: 100%;
+  background: #0c333e79;
+
+  overflow: hidden;
+  box-sizing: border-box;
+
+  display: flex;
+}
+@media (max-width: 630px) {
+  .contact-page .left .overlay {
+    padding: 15px;
+  }
+}
+
+.contact-page .left .overlay h1 {
+  font-size: 60px;
+  line-height: 1;
+  font-weight: bold;
+  margin-block-start: 0;
+  margin-block-end: 0;
+
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+}
+.contact-page .left .contact-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.contact-page .left .contact-container .support,
+.contact-page .left .contact-container-items {
+  background-color: #ffffffbf;
+  border-radius: 10px;
+  margin: 10px;
+  padding: 5px 20px 5px 20px;
+}
+.contact-page .left .contact-container-items .flex-container {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+.contact-page .left .contact-container .support .btn-outline-info {
+  align-items: center;
+}
+.contact-page .left .contact-container * {
+  color: #333333;
+}
+.contact-page .right {
+  padding: 40px 40px 15px 40px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+@media (max-width: 980px) {
+  .contact-page .right {
+    width: 100%;
+  }
+}
+.contact-page .contact-header {
+  font-size: 5vmax;
+  margin-block-start: 15px;
+  margin-block-end: 15px;
+}
+
+.contact-page .right .inputs {
+  width: 300px;
+  padding: 10px;
+  display: flex;
+  align-items: baseline;
+  color: red;
+}
+#confirm-password-text {
+  color: red;
+  font-size: 15px;
+  padding-bottom: 5px;
+}
+.contact-page .right .contact-input {
+  width: 100%;
+  padding: 10px;
+  margin-top: 25px;
+  font-size: 16px;
+  border: none;
+  outline: none;
+  border-bottom: 2px solid #b0b3b9;
+}
+.contact-page .right .textarea-subject {
+  border-width: 2px;
+}
+
+.contact-page .forget-pass {
+  font-size: 14px;
+  color: #b0b3b9;
+  display: flex;
+  width: inherit;
+  flex-direction: row-reverse;
+}
+
+.contact-page .right .submit-button {
+  color: #fff;
+  margin: 50px 20px 70px 20px;
+  padding: 12px 35px;
+  border-radius: 15px;
+  border: 0;
+  outline: 0;
+  box-shadow: 0px 4px 20px 0px lightblue;
+  background-image: linear-gradient(135deg, #0c38bda2 10%, #0048ff 100%);
+  cursor: pointer;
+}
