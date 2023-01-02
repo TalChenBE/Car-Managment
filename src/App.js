@@ -1,23 +1,37 @@
-import logo from './logo.svg';
-import './App.css';
+// import { BrowserRouter, Routes, Route } from "react-router";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import "./App.css";
+import {
+  Navbar,
+  HomePage,
+  Login,
+  ForgetPassword,
+  Signup,
+  ContectUs,
+  Dashboard,
+} from "./dev";
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Navbar />
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/Login" element={<Login />} />
+          <Route path="/ForgetPassword" element={<ForgetPassword />} />
+          <Route path="/Signup" element={<Signup />} />
+          <Route path="/ContectUs" element={<ContectUs />} />
+          <Route path="/Dashboard" element={<Dashboard />} />
+        </Routes>
+      </BrowserRouter>
+      <footer className="sticky-footer bg-white">
+        <div className="container my-auto">
+          <div className="copyright text-center my-auto">
+            <span>Copyright &copy; Mosh_TalChen car-menagment 2022</span>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }
