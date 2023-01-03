@@ -10,8 +10,6 @@ const responseTime = require('response-time');
 const cors = require('cors');
 const helmet = require('helmet');
 
-const secret = process.env.SESSION_SECRET;
-
 const app = express();
 app.set('port', process.env.PORT || 4000);
 
