@@ -1,6 +1,7 @@
 import { useRef } from "react";
 import { Link } from "react-router-dom";
 import "./Login.css";
+import axios from "axios";
 
 const Login = () => {
   const errorRef = useRef(null);
@@ -56,6 +57,17 @@ const Login = () => {
     } else {
       alert(`You are in !`);
     }
+
+    fetch('http://localhost:4000/api/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        email: "aha@rma.com",
+        password: "dian123"
+      }),
+    }).then(response => console.log(response)).catch(e => console.log(e))
   };
 
   return (
