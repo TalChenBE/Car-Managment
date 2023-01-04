@@ -1,8 +1,16 @@
-import { useRef } from "react";
+import {useRef, useState} from "react";
+import useAuth from '../../hooks/useAuth';
 import { Link } from "react-router-dom";
 import "./Login.css";
+import axios from '../../api/axios';
+const LOGIN_URL = '/auth';
 
 const Login = () => {
+  const { setAuth } = useAuth();
+
+  const [email, setEmail] = useState('');
+  const [pwd, setPwd] = useState('');
+
   const errorRef = useRef(null);
 
   let isPasswordValid = false;
@@ -43,19 +51,45 @@ const Login = () => {
     else passwordInput.style.borderBottom = " 2px solid #b0b3b9";
   };
 
-  const handelSubmitClick = (e) => {
-    if (isPasswordValid === false) {
-      errorRef.current.innerText = `ERORR: the password is incorrect!!${
-        !isTrueLength ? "\nThe length mast be at lest 6 chars" : ""
-      }${!hasUpperCase ? "\nThe password mast includes upper case" : ""}${
-        !hasLowerCase ? "\nThe password mast includes upper case" : ""
-      }${!hasNum ? "\nThe password mast includes Numner" : ""}${
-        !hasSpecialChar ? "\nThe password mast includes Spacial chars" : ""
-      }`;
-      e.preventDefault();
-    } else {
-      alert(`You are in !`);
+  const handelSubmitClick = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post(LOGIN_URL,
+          JSON.stringify({ email: email, password: pwd }),
+          {
+            headers: { 'Content-Type': 'application/json' },
+            withCredentials: true
+          }
+      );
+      console.log(JSON.stringify(response?.data));
+
+      const accessToken = response?.data?.accessToken;
+      setAuth({ email: email, password: pwd, accessToken });
+      setEmail('');
+      setPwd('');
+      if (isPasswordValid === false) {
+        errorRef.current.innerText = `ERORR: the password is incorrect!!${
+            !isTrueLength ? "\nThe length mast be at lest 6 chars" : ""
+        }${!hasUpperCase ? "\nThe password mast includes upper case" : ""}${
+            !hasLowerCase ? "\nThe password mast includes upper case" : ""
+        }${!hasNum ? "\nThe password mast includes Numner" : ""}${
+            !hasSpecialChar ? "\nThe password mast includes Spacial chars" : ""
+        }`;
+      } else {
+        alert(`You are in !`);
+      }
+    } catch (err) {
+      if (!err?.response) {
+        console.log('No Server Response');
+      } else if (err.response?.status === 400) {
+        console.log('Missing Username or Password');
+      } else if (err.response?.status === 401) {
+        console.log('Unauthorized');
+      } else {
+        console.log('Login Failed');
+      }
     }
+
   };
 
   return (
@@ -77,6 +111,8 @@ const Login = () => {
             <input
               className="login-input login-input-email"
               type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               placeholder="Enter Email *"
               required
               onBlur={() => handleChangeEmail()}
@@ -87,6 +123,8 @@ const Login = () => {
             <input
               className="login-input login-input-password"
               type="password"
+              value={pwd}
+              onChange={(e) => setPwd(e.target.value)}
               placeholder="Enter password *"
               onBlur={() => handleChangePassword()}
               required
