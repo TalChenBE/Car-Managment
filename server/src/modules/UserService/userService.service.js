@@ -45,7 +45,13 @@ const login = async (req, res) => {
       { expiresIn: '1d' }
     );
     foundUser.refreshToken = refreshToken;
-    const result = await foundUser.save();
+    const result = await dbs.usersCollection.updateOne(
+      { email: foundUser.email },
+      {
+        $set: foundUser,
+      }
+    );
+
     console.log(result);
 
     //Expire in one day in ms
@@ -78,7 +84,12 @@ const logout = async (req, res) => {
   }
 
   foundUser.refreshToken = '';
-  const result = await foundUser.save();
+  const result = await dbs.usersCollection.updateOne(
+    { email: foundUser.email },
+    {
+      $set: foundUser,
+    }
+  );
   console.log(result);
 
   res.clearCookie('jwt', { httpOnly: true, sameSite: 'None', secure: true });
@@ -127,7 +138,7 @@ const signup = async (req, res) => {
     return res.status(409).json({
       success: false,
       message: 'User already exist',
-    })
+    });
   }
   const hashedPwd = await bcrypt.hash(user.password, 10);
   user.password = hashedPwd;

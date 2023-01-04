@@ -9,6 +9,7 @@ const credentials = require('./middleware/credentials');
 const responseTime = require('response-time');
 const cors = require('cors');
 const helmet = require('helmet');
+const verifyJWT = require('./middleware/verifyJWT');
 
 const app = express();
 app.set('port', process.env.PORT || 4000);
@@ -21,9 +22,12 @@ app.use(cors(corsOptions));
 app.use(helmet());
 app.use(cookieParser());
 
-app.use('/api', require('./api/treatments'));
+// app.use('/api/auth', require('./api/auth'));
 app.use('/api', require('./api/users'));
 app.use('/api', require('./api/refresh'));
+
+app.use(verifyJWT);
+app.use('/api', require('./api/treatments'));
 
 app.listen(app.get('port'), () => {
   console.log(`App listening on ${app.get('port')}`);
