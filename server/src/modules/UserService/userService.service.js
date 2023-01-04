@@ -4,12 +4,14 @@ require('console-stamp')(console, {
 
 const dbs = require('../database/mongodb');
 const bcrypt = require('bcrypt');
+
 const jwt = require('jsonwebtoken');
-const { subtle } = require('crypto');
+
 
 const saltRounds = 10;
 
 const login = async (req, res) => {
+
   let { email, password } = req.body;
   if (!email || !password) {
     return res.status(400).json({
@@ -17,6 +19,7 @@ const login = async (req, res) => {
       message: 'You must provide a user credentials',
     });
   }
+
 
   const foundUser = await dbs.usersCollection.findOne({
     email: email,
@@ -130,6 +133,7 @@ const signup = async (req, res) => {
     });
   }
 
+
   const isExist = await dbs.usersCollection.findOne({
     email: user.email,
   });
@@ -140,20 +144,25 @@ const signup = async (req, res) => {
       message: 'User already exist',
     });
   }
+
   const hashedPwd = await bcrypt.hash(user.password, 10);
   user.password = hashedPwd;
+
 
   dbs.usersCollection
     .insertOne(user)
     .then((result) => {
       return res.status(201).json({
         success: true,
+
         message: `A new user ${user.email} has been signed up`,
         result,
       });
     })
     .catch((e) => {
+
       return res.status(500).json({
+
         success: false,
         message: `Couldn't sign up new user`,
         user: user,
@@ -161,6 +170,7 @@ const signup = async (req, res) => {
       });
     });
 };
+
 
 const refreshToken = async (req, res) => {
   const cookies = req.cookies;
@@ -200,5 +210,7 @@ module.exports = {
   login,
   logout,
   forgetPassword,
+
   refreshToken,
+
 };
