@@ -42,7 +42,7 @@ const ForgetPassword = () => {
         errorRef.current.innerText = "Please Check Your Email";
         errorRef.current.style.background = "#13b8609b";
         errorRef.current.style.color = "#111";
-        const accessToken = response?.data?.accessToken;
+        // const accessToken = response?.data?.accessToken;
         // setAuth({ email: email, password: password, accessToken });
       } catch (err) {
         errorRef.current.innerText = err?.response.data.message;
