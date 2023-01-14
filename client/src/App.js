@@ -24,8 +24,8 @@ function App() {
           <Route path="/Signup" element={<Signup />} />
           <Route path="/ContectUs" element={<ContectUs />} />
           <Route path="/Dashboard" element={<Dashboard />} />
-          <Route path="/PageNotFound" element={<PageNotFound />} />
           <Route path="/ResetPassword/:token" element={<ResetPassword />} />
+          <Route path="/*" element={<PageNotFound />} />
         </Routes>
       </BrowserRouter>
       <footer className="sticky-footer bg-white">
