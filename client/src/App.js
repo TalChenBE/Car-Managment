@@ -15,7 +15,7 @@ import {
 function App() {
   return (
     <div className="App">
-      <Navbar fullName="FirstName LastName" gender="female" />
+      <Navbar />
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Login />} />

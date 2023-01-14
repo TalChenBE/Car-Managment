@@ -5,13 +5,14 @@ import exit from "../../utils/icons/exit.png";
 import Sidenav from "../Sidenav/Sidenav";
 import { useCookies } from "react-cookie";
 import "./Navbar.css";
+import { useEffect } from "react";
 
-const Navbar = ({ fullName, gender }) => {
-  const [cookies, setCookie, removeCookie] = useCookies(["cookie-name"]);
-  console.log("Navbar:", { cookies, setCookie, removeCookie });
+const Navbar = () => {
+  const [cookies, removeCookie] = useCookies(["cookie-name"]);
 
   const handleExitClick = (e) => {
     console.log("user Exit");
+    removeCookie();
   };
 
   return (
@@ -24,15 +25,15 @@ const Navbar = ({ fullName, gender }) => {
       />
       <div className="navbar-divider"></div>
       <div className="navbar-img-container">
-        {gender === "female" && (
+        {cookies?.gender === "female" && (
           <img src={female} alt="female-icon" className="navbar-img-icon"></img>
         )}
-        {gender === "male" && (
+        {cookies?.gender === "male" && (
           <img src={male} alt="male-icon" className="navbar-img-icon"></img>
         )}
       </div>
 
-      <h6>{fullName}</h6>
+      <h6>{cookies?.firstName + cookies?.lastName}</h6>
 
       <a className="navbar-title-ContectUs" href="../ContectUs">
         Contect Us
