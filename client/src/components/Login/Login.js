@@ -80,9 +80,9 @@ const Login = () => {
         console.log(JSON.stringify(response?.data));
         const user = response?.data.foundUser;
 
-        setCookie("firstname", user.firstname, { path: "/", secure: true });
+        setCookie("firstName", user.firstname, { path: "/", secure: true });
         setCookie("lastName", user.lastName, {});
-        setCookie("gander", user.gander, {});
+        setCookie("gender", user.gender, {});
 
         console.log("Cookie:", cookies);
         const accessToken = response?.data?.accessToken;

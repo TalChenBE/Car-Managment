@@ -39,7 +39,7 @@ const Navbar = () => {
         )}
       </div>
 
-      <h6>{cookies?.firstName + cookies?.lastName}</h6>
+      <h6>{cookies?.firstName + " " + cookies?.lastName}</h6>
 
       <a className="navbar-title-ContectUs" href="../ContectUs">
         Contect Us
