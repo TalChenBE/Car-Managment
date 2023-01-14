@@ -1,38 +1,79 @@
 import { useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import thinkMan from "../../utils/icons/thinking-man-icon.png";
 import axios from "../../api/axios";
-import "./ForgetPassword.css";
+import "./ResetPassword.css";
 
-const FORGETPASS_URL = "/forget_password";
+const RESETPASS_URL = "/reset_password/";
 
-const ForgetPassword = () => {
+const ResetPassword = () => {
+  const { token } = useParams();
+
+  const [password, setPassword] = useState(""); // Tt123@
+  const [passwordConfirm, setPasswordConfirm] = useState("");
+  const [isPasswordValid, setIsPasswordValid] = useState(false);
+
+  const passwordRef = useRef(null);
+  const passwordConfirmRef = useRef(null);
   const errorRef = useRef(null);
-  const emailInput = useRef(null);
 
-  let isEmailValid = false;
+  let isTrueLength, hasUpperCase, hasLowerCase, hasNum, format, hasSpecialChar;
 
-  const handleChangeEmail = () => {
-    isEmailValid = emailInput.current.checkValidity();
-    if (isEmailValid === false)
-      emailInput.current.style.borderBottom = "2px solid red";
-    else emailInput.current.style.borderBottom = " 2px solid #b0b3b9";
+  const handleChangePassword = () => {
+    isTrueLength = password.length >= 6;
+    hasUpperCase = /[A-Z]/.test(password);
+    hasLowerCase = /[a-z]/.test(password);
+    hasNum = /[1-9]/.test(password);
+
+    format = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
+    hasSpecialChar = format.test(password);
+
+    if (
+      isTrueLength &&
+      hasUpperCase &&
+      hasLowerCase &&
+      hasNum &&
+      hasSpecialChar
+    )
+      setIsPasswordValid(true);
+
+    if (isPasswordValid === false)
+      passwordRef.current.style.borderBottom = "2px solid red";
+    else passwordRef.current.style.borderBottom = " 2px solid #b0b3b9";
+    if (isPasswordValid && passwordConfirm === password) {
+      const element = document.getElementById("confirm-password-text");
+      element.innerHTML = "";
+    }
+  };
+
+  const handleChangeConfirmPassword = () => {
+    const element = document.getElementById("confirm-password-text");
+    if (passwordConfirm === password) {
+      passwordConfirmRef.current.style.borderBottom = " 2px solid #b0b3b9";
+      element.innerHTML = "";
+    } else {
+      passwordConfirmRef.current.style.borderBottom = "2px solid red";
+      element.innerHTML = "The passwords do not match";
+    }
+    if (isPasswordValid) {
+      element.innerHTML = "Password is not valid";
+    }
   };
 
   const handelSubmitClick = async (e) => {
-    if (isEmailValid === false) {
-      console.log("errorRef.current.value:", errorRef.current.value);
-      errorRef.current.value === undefined
-        ? (errorRef.current.innerText = "Please enter an email")
-        : (errorRef.current.innerText = "ERORR: the Email is incorrect!!");
-      errorRef.current.style.background = "unset";
-      errorRef.current.style.color = "#ff0000cf";
-    } else {
+    if (isPasswordValid === false) {
+      errorRef.current.innerText = `ERORR: the password is incorrect!!${
+        !isTrueLength ? "\nThe length mast be at lest 6 chars" : ""
+      }${!hasUpperCase ? "\nThe password mast includes upper case" : ""}${
+        !hasLowerCase ? "\nThe password mast includes upper case" : ""
+      }${!hasNum ? "\nThe password mast includes Numner" : ""}${
+        !hasSpecialChar ? "\nThe password mast includes Spacial chars" : ""
+      }`;
+    } else if (passwordConfirm === password) {
       try {
-        console.log("emailInput.current.value:", emailInput.current.value);
         const response = await axios.post(
-          FORGETPASS_URL,
-          JSON.stringify({ email: emailInput.current.value }),
+          RESETPASS_URL + token,
+          JSON.stringify({ password: passwordRef.current.value }),
           {
             headers: { "Content-Type": "application/json" },
             withCredentials: true,
@@ -45,24 +86,10 @@ const ForgetPassword = () => {
         const accessToken = response?.data?.accessToken;
         // setAuth({ email: email, password: password, accessToken });
       } catch (err) {
-        if (!err?.response) {
-          errorRef.current.innerText = `No Server Response`;
-          errorRef.current.style.background = "unset";
-          errorRef.current.style.color = "#ff0000cf";
-        } else if (err.response?.status === 400) {
-          errorRef.current.innerText = `Missing Username or Password`;
-          errorRef.current.style.background = "unset";
-          errorRef.current.style.color = "#ff0000cf";
-        } else if (err.response?.status === 401) {
-          errorRef.current.innerText = `Unauthorized`;
-          errorRef.current.style.background = "unset";
-          errorRef.current.style.color = "#ff0000cf";
-        } else {
-          errorRef.current.innerText = `something went wrong, please try again`;
-          errorRef.current.style.background = "unset";
-          errorRef.current.style.color = "#ff0000cf";
-        }
+        console.error(err?.response.data.message);
       }
+    } else {
+      errorRef.innerHTML = "passeord are not equal";
     }
   };
 
@@ -75,47 +102,38 @@ const ForgetPassword = () => {
       </div>
 
       <div className="right">
-        <h2 className="forget-password-header">Forget Your Password?</h2>
+        <h2 className="forget-password-header">Reset Password</h2>
         <p>
           We get it, stuff happens. Just enter your email address below and
           we'll send you a link to reset your password!
         </p>
-        <div className="inputs">
-          <input
-            className="forget-password-input-email"
-            type="email"
-            placeholder="Enter Email *"
-            required
-            ref={emailInput}
-            onBlur={() => handleChangeEmail()}
-          />
-        </div>
-        {/* <div className="signup-password-continer inputs">
+        <div className="forget-password-continer inputs">
           <i className="bi bi-lock"></i>
           <input
-            className="signup-input signup-input-password"
+            className="forget-password-input forget-password-input-password"
             ref={passwordRef}
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             placeholder="Enter Password *"
-            onBlur={() => handleChangePassword()}
+            onBlur={handleChangePassword}
             required
           />
         </div>
-        <div className="signup-password-continer inputs">
+        <div className="forget-password-password-continer inputs">
           <i className="bi bi-lock"></i>
           <input
-            className="signup-input signup-input-confirm-password"
+            className="forget-password-input forget-password-input-confirm-password"
             ref={passwordConfirmRef}
             type="password"
             value={passwordConfirm}
             onChange={(e) => setPasswordConfirm(e.target.value)}
             placeholder="Confirm Password *"
-            onBlur={() => handleChangeConfirmPassword()}
+            onBlur={handleChangeConfirmPassword}
             required
           />
-        </div> */}
+        </div>
+        <div id="confirm-password-text"></div>
         <div ref={errorRef} className="forget-password-error-msg"></div>
         <div className="submit-continer">
           <button
@@ -136,4 +154,4 @@ const ForgetPassword = () => {
   );
 };
 
-export default ForgetPassword;
+export default ResetPassword;

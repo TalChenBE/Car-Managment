@@ -144,6 +144,11 @@ body {
   flex-direction: row-reverse;
 }
 
+.contact-page .confirm-msg {
+  padding: 10px;
+  border-radius: 10px;
+}
+
 .contact-page .right .submit-button {
   color: #fff;
   margin: 50px 20px 70px 20px;

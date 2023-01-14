@@ -45,23 +45,9 @@ const ForgetPassword = () => {
         const accessToken = response?.data?.accessToken;
         // setAuth({ email: email, password: password, accessToken });
       } catch (err) {
-        if (!err?.response) {
-          errorRef.current.innerText = `No Server Response`;
-          errorRef.current.style.background = "unset";
-          errorRef.current.style.color = "#ff0000cf";
-        } else if (err.response?.status === 400) {
-          errorRef.current.innerText = `Missing Username or Password`;
-          errorRef.current.style.background = "unset";
-          errorRef.current.style.color = "#ff0000cf";
-        } else if (err.response?.status === 401) {
-          errorRef.current.innerText = `Unauthorized`;
-          errorRef.current.style.background = "unset";
-          errorRef.current.style.color = "#ff0000cf";
-        } else {
-          errorRef.current.innerText = `something went wrong, please try again`;
-          errorRef.current.style.background = "unset";
-          errorRef.current.style.color = "#ff0000cf";
-        }
+        errorRef.current.innerText = err?.response.data.message;
+        errorRef.current.style.background = "unset";
+        errorRef.current.style.color = "#ff0000cf";
       }
     }
   };

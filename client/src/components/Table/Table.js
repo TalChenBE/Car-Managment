@@ -65,7 +65,7 @@ const Table = ({ tableData = EMPTY_ARRAY, headers = EMPTY_ARRAY }) => {
       // const accessToken = response?.data?.accessToken;
       // setAuth({ email: email, password: password, accessToken });
     } catch (err) {
-      console.error(err);
+      console.error(err?.response.data.message);
     }
   };
 
@@ -82,7 +82,7 @@ const Table = ({ tableData = EMPTY_ARRAY, headers = EMPTY_ARRAY }) => {
       // const accessToken = response?.data?.accessToken;
       // setAuth({ email: email, password: password, accessToken });
     } catch (err) {
-      console.error(err);
+      console.error(err?.response.data.message);
     }
   };
 
@@ -96,7 +96,7 @@ const Table = ({ tableData = EMPTY_ARRAY, headers = EMPTY_ARRAY }) => {
       // const accessToken = response?.data?.accessToken;
       // setAuth({ email: email, password: password, accessToken });
     } catch (err) {
-      console.error(err);
+      console.error(err?.response.data.message);
     }
   };
 

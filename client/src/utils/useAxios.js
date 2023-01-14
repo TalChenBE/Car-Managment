@@ -28,6 +28,7 @@ const useAxios = (url, method, data) => {
             setError(false);
           })
           .catch((err) => {
+            console.error(err?.response.data.message);
             if (err.name === "AbortError")
               console.log(`axios ${method} aborted`);
             else {

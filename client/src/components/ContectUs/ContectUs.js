@@ -1,5 +1,8 @@
 import { useRef, useState } from "react";
+import axios from "../../api/axios";
 import "./ContectUs.css";
+
+const CONTECTUS_URL = "contact_us";
 
 const ContectUs = () => {
   const [subject, setSubject] = useState("Contact us concerning: *");
@@ -8,6 +11,7 @@ const ContectUs = () => {
   const emailRef = useRef(null);
   const menuRef = useRef(null);
   const messageRef = useRef(null);
+  const confirmRef = useRef(null);
 
   const handleChangeName = () => {
     if (nameRef.current.value === "")
@@ -31,13 +35,32 @@ const ContectUs = () => {
     handelDropdwonClick();
     setSubject(event.target.innerText);
   };
-  const handelSubmitClick = (e) => {
-    e.preventDefault();
 
-    console.log("name:", nameRef.current.value);
-    console.log("email:", emailRef.current.value);
-    console.log("subject:", subject);
-    console.log("message:", messageRef.current.value);
+  const handelSubmitClick = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post(
+        CONTECTUS_URL,
+        JSON.stringify({
+          name: nameRef.current.value,
+          email: emailRef.current.value.toLocaleLowerCase(),
+          subject: subject,
+          body: messageRef.current.value,
+        }),
+        {
+          headers: { "Content-Type": "application/json" },
+          withCredentials: true,
+        }
+      );
+      console.log(JSON.stringify(response?.data));
+      confirmRef.current.innerText = "Send the message";
+      confirmRef.current.style.background = "#13b8609b";
+      confirmRef.current.style.color = "#111";
+      // const accessToken = response?.data?.accessToken;
+      // setAuth({ email: email, password: password, accessToken });
+    } catch (err) {
+      console.error(err?.response.data.message);
+    }
   };
 
   return (
@@ -115,7 +138,6 @@ const ContectUs = () => {
             </button>
             <ul
               className="dropdown-menu"
-              // id="dropdown-menu"
               ref={menuRef}
               style={{ display: "none" }}
             >
@@ -141,13 +163,11 @@ const ContectUs = () => {
               required
             ></textarea>
           </div>
+
           <div className="submit-continer">
-            <input
-              className="submit-button"
-              type="submit"
-              value="Create my account"
-            />
+            <input className="submit-button" type="submit" value="Submit" />
           </div>
+          <div ref={confirmRef} className="confirm-msg"></div>
         </div>
       </form>
     </div>

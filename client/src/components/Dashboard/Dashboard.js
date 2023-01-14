@@ -36,7 +36,7 @@ const Dashboard = () => {
         // const accessToken = response?.data?.accessToken;
         // setAuth({ email: email, password: password, accessToken });
       } catch (err) {
-        console.error("err:", err);
+        console.error(err?.response.data.message);
       }
     };
 

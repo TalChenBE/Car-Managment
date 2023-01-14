@@ -96,7 +96,7 @@ const Signin = () => {
           JSON.stringify({
             firstname: firstname,
             lastName: lastName,
-            email: email,
+            email: email.toLocaleLowerCase(),
             password: password,
             gander: gander,
           }),
@@ -114,15 +114,7 @@ const Signin = () => {
         setPassword("");
         navigate("/Login");
       } catch (err) {
-        if (!err?.response) {
-          errorRef.current.innerText = `No Server Response`;
-        } else if (err.response?.status === 400) {
-          errorRef.current.innerText = `Missing Username or Password`;
-        } else if (err.response?.status === 401) {
-          errorRef.current.innerText = `Unauthorized`;
-        } else {
-          errorRef.current.innerText = `Login Failed`;
-        }
+        errorRef.current.innerText = err?.response.data.message;
       }
     }
   };

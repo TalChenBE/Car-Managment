@@ -3,9 +3,9 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./App.css";
 import {
   Navbar,
-  HomePage,
   Login,
   ForgetPassword,
+  ResetPassword,
   Signup,
   ContectUs,
   Dashboard,
@@ -25,6 +25,7 @@ function App() {
           <Route path="/ContectUs" element={<ContectUs />} />
           <Route path="/Dashboard" element={<Dashboard />} />
           <Route path="/PageNotFound" element={<PageNotFound />} />
+          <Route path="/ResetPassword/:token" element={<ResetPassword />} />
         </Routes>
       </BrowserRouter>
       <footer className="sticky-footer bg-white">
