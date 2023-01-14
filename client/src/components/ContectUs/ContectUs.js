@@ -72,9 +72,12 @@ const ContectUs = () => {
             <div className="contact-container">
               <div className="support">
                 <h2>24/7 support</h2>
-                <button type="button" className="btn btn-outline-info">
+                <a
+                  href={`mailto:car.managemnet.service@gmail.com?`}
+                  className="btn btn-outline-info"
+                >
                   Contact Support
-                </button>
+                </a>
               </div>
               <div>
                 <div className="contact-container-items">

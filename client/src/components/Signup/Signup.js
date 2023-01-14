@@ -19,9 +19,9 @@ const Signin = () => {
 
   const firstnameRef = useRef(null);
   const lastnameRef = useRef(null);
-  const ganderFRef = useRef(null);
-  const ganderMRef = useRef(null);
-  const ganderORef = useRef(null);
+  const genderFRef = useRef(null);
+  const genderMRef = useRef(null);
+  const genderORef = useRef(null);
   const errorRef = useRef(null);
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
@@ -78,17 +78,17 @@ const Signin = () => {
 
     if (isPasswordValid === false) {
       errorRef.current.innerText = `ERORR: the password is incorrect!!${
-        !isTrueLength ? "\nThe length mast be at lest 6 chars" : ""
-      }${!hasUpperCase ? "\nThe password mast includes upper case" : ""}${
-        !hasLowerCase ? "\nThe password mast includes upper case" : ""
-      }${!hasNum ? "\nThe password mast includes Numner" : ""}${
-        !hasSpecialChar ? "\nThe password mast includes Spacial chars" : ""
+        !isTrueLength ? "\nThe length must be at last 6 chars" : ""
+      }${!hasUpperCase ? "\nThe password must includes upper case" : ""}${
+        !hasLowerCase ? "\nThe password must includes upper case" : ""
+      }${!hasNum ? "\nThe password must includes Number" : ""}${
+        !hasSpecialChar ? "\nThe password must includes Special chars" : ""
       }`;
     } else {
       try {
-        const gander = ganderFRef.current.checked
+        const gender = genderFRef.current.checked
           ? "female"
-          : ganderMRef.current.checked
+          : genderMRef.current.checked
           ? "male"
           : "other";
         const response = await axios.post(
@@ -98,7 +98,7 @@ const Signin = () => {
             lastName: lastName,
             email: email.toLocaleLowerCase(),
             password: password,
-            gander: gander,
+            gender: gender,
           }),
           {
             headers: { "Content-Type": "application/json" },
@@ -158,14 +158,14 @@ const Signin = () => {
                 />
               </div>
               <div className="signup-gender-continer inputs">
-                <label> Gander:</label>
+                <label> Gender:</label>
                 <div>
                   <input
                     type="radio"
                     id="female"
                     name="drone"
                     value="female"
-                    ref={ganderFRef}
+                    ref={genderFRef}
                   />
                   <label htmlFor="female">Female</label>
                 </div>
@@ -175,7 +175,7 @@ const Signin = () => {
                     id="male"
                     name="drone"
                     value="male"
-                    ref={ganderMRef}
+                    ref={genderMRef}
                   />
                   <label htmlFor="male">Male</label>
                 </div>
@@ -185,7 +185,7 @@ const Signin = () => {
                     id="other"
                     name="drone"
                     value="other"
-                    ref={ganderORef}
+                    ref={genderORef}
                   />
                   <label htmlFor="other">Other</label>
                 </div>

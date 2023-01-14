@@ -57,11 +57,11 @@ const Login = () => {
     e.preventDefault();
     if (isPasswordValid === false) {
       errorRef.current.innerText = `ERORR: the password is incorrect!!${
-        !isTrueLength ? "\nThe length mast be at lest 6 chars" : ""
-      }${!hasUpperCase ? "\nThe password mast includes upper case" : ""}${
-        !hasLowerCase ? "\nThe password mast includes upper case" : ""
-      }${!hasNum ? "\nThe password mast includes Numner" : ""}${
-        !hasSpecialChar ? "\nThe password mast includes Spacial chars" : ""
+        !isTrueLength ? "\nThe length must be at last 6 chars" : ""
+      }${!hasUpperCase ? "\nThe password must includes upper case" : ""}${
+        !hasLowerCase ? "\nThe password must includes upper case" : ""
+      }${!hasNum ? "\nThe password must includes Number" : ""}${
+        !hasSpecialChar ? "\nThe password must includes Special chars" : ""
       }`;
     } else {
       passwordRef.current.style.borderBottom = " 2px solid #13b8609b";
@@ -81,8 +81,8 @@ const Login = () => {
         const user = response?.data.foundUser;
 
         setCookie("firstName", user.firstname, { path: "/", secure: true });
-        setCookie("lastName", user.lastName, {});
-        setCookie("gender", user.gender, {});
+        setCookie("lastName", user.lastName, { path: "/", secure: true });
+        setCookie("gender", user.gender, { path: "/", secure: true });
 
         console.log("Cookie:", cookies);
         const accessToken = response?.data?.accessToken;

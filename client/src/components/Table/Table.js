@@ -57,7 +57,7 @@ const Table = ({ tableData = EMPTY_ARRAY, headers = EMPTY_ARRAY }) => {
       });
       // console.log(JSON.stringify(response?.data));
       const result = response?.data.result;
-      result.Date = date.format(new Date(result.Date), "DD/MM/YYYY");
+      result.Date = date.format(new Date(result.Date), "YYYY-MM-DD");
 
       tableData.set(result.Treatment_Number, result);
       if (tableData.size === 0) window.location.reload(true);
