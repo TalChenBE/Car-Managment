@@ -10,7 +10,7 @@ const LOGIN_URL = "/auth";
 
 const Login = () => {
   const { setAuth } = useAuth();
-  const [cookies, setCookie, removeCookie] = useCookies(["cookie-name"]);
+  const [cookies, setCookie] = useCookies(["cookie-name"]);
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
