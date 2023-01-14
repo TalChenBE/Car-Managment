@@ -10,6 +10,12 @@ import { useEffect } from "react";
 const Navbar = () => {
   const [cookies, removeCookie] = useCookies(["cookie-name"]);
 
+  useEffect(() => {
+    console.log("gender:", cookies?.gender);
+    console.log("firstName:", cookies?.firstName);
+    console.log("lastName:", cookies?.lastName);
+  }, [cookies]);
+
   const handleExitClick = (e) => {
     console.log("user Exit");
     removeCookie();
