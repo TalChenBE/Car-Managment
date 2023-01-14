@@ -40,11 +40,9 @@ const Navbar = () => {
       </div>
 
       <h6>
-        {cookies?.firstName === undefined
-          ? " "
-          : cookies?.firstName + " " + cookies?.lastName === undefined
-          ? " "
-          : cookies?.lastName}
+        {(cookies?.firstName === undefined ? "Hello" : cookies?.firstName) +
+          " " +
+          (cookies?.lastName === undefined ? "Welcome" : cookies?.lastName)}
       </h6>
 
       <a className="navbar-title-ContectUs" href="../ContectUs">
