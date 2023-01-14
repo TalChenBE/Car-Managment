@@ -1,12 +1,12 @@
-import axios from 'axios';
-const BASE_URL = 'http://localhost:4000/api';
+import axios from "axios";
+const BASE_URL = "https://car-management-back-end.vercel.app/api/";
 
 export default axios.create({
-    baseURL: BASE_URL
+  baseURL: BASE_URL,
 });
 
 export const axiosPrivate = axios.create({
-    baseURL: BASE_URL,
-    headers: { 'Content-Type': 'application/json' },
-    withCredentials: true
+  baseURL: BASE_URL,
+  headers: { "Content-Type": "application/json" },
+  withCredentials: true,
 });

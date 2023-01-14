@@ -1,12 +1,24 @@
-import "./Navbar.css";
 import male from "../../utils/icons/male.svg";
 import female from "../../utils/icons/female.svg";
 import car from "../../utils/icons/car.svg";
-import { Link } from "react-router-dom";
+import exit from "../../utils/icons/exit.png";
+import Sidenav from "../Sidenav/Sidenav";
+import "./Navbar.css";
 
-const Navbar = ({ fullName = "FirstName LastName", gender = "female" }) => {
+const Navbar = ({ fullName, gender }) => {
+  const handleExitClick = (e) => {
+    console.log("user Exit");
+  };
+
   return (
     <div className="navbar-container">
+      <img
+        src={exit}
+        alt="exit"
+        className="navbar-img-icon"
+        onClick={handleExitClick}
+      />
+      <div className="navbar-divider"></div>
       <div className="navbar-img-container">
         {gender === "female" && (
           <img src={female} alt="female-icon" className="navbar-img-icon"></img>
@@ -22,8 +34,11 @@ const Navbar = ({ fullName = "FirstName LastName", gender = "female" }) => {
         Contect Us
       </a>
       <div className="navbar-divider"></div>
-      <h4 className="navbar-title">Car Menagment</h4>
-      <img src={car} alt="car-icon" className="navbar-img-icon"></img>
+      <a href="/Dashboard" className="navbar-a">
+        <h4 className="navbar-title">Car Menagment</h4>
+        <img src={car} alt="car-icon" className="navbar-img-icon"></img>
+      </a>
+      <Sidenav />
     </div>
   );
 };

@@ -1,0 +1,11 @@
+.sidenav .menu-icon {
+  width: 30px;
+  height: auto;
+  cursor: pointer;
+}
+
+.sidenav-link {
+  color: #000;
+  text-decoration: none;
+  font-size: 20px;
+}

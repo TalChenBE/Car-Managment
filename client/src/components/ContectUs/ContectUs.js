@@ -1,41 +1,48 @@
+import { useRef, useState } from "react";
 import "./ContectUs.css";
 
 const ContectUs = () => {
-  let isPasswordValid = false;
-  let isTrueLength, hasUpperCase, hasLowerCase, hasNum, format, hasSpecialChar;
-  let passwordVal;
-  let issue;
+  const [subject, setSubject] = useState("Contact us concerning: *");
+
+  const nameRef = useRef(null);
+  const emailRef = useRef(null);
+  const menuRef = useRef(null);
+  const messageRef = useRef(null);
+
   const handleChangeName = () => {
-    const nameInput = document.getElementsByClassName("contact-input-name")[0];
-    if (nameInput.value == "") nameInput.style.borderBottom = "2px solid red";
-    else nameInput.style.borderBottom = " 2px solid #b0b3b9";
+    if (nameRef.current.value === "")
+      nameRef.current.style.borderBottom = "2px solid red";
+    else nameRef.current.style.borderBottom = " 2px solid #b0b3b9";
   };
 
   const handleChangeEmail = () => {
-    const emailInput = document.getElementsByClassName(
-      "contact-input-email"
-    )[0];
-    if (emailInput.checkValidity() == false)
-      emailInput.style.borderBottom = "2px solid red";
-    else emailInput.style.borderBottom = " 2px solid #b0b3b9";
+    if (emailRef.current.checkValidity() === false)
+      emailRef.current.style.borderBottom = "2px solid red";
+    else emailRef.current.style.borderBottom = " 2px solid #b0b3b9";
   };
 
   const handelDropdwonClick = () => {
-    const menu = document.getElementById("dropdown-menu");
-    console.log("style of menu:", menu.style.display);
-    menu.style = `display:${menu.style.display == "none" ? "block" : "none"}`;
+    menuRef.current.style = `display:${
+      menuRef.current.style.display === "none" ? "block" : "none"
+    }`;
   };
 
   const handelDropdwonItemClick = (event) => {
-    const menu = document.getElementById("dropdown-menu");
-    menu.style = `display:${menu.style.display == "none" ? "block" : "none"}`;
-    issue = event.target.innerText;
+    handelDropdwonClick();
+    setSubject(event.target.innerText);
   };
-  const handelSubmitClick = () => {};
+  const handelSubmitClick = (e) => {
+    e.preventDefault();
+
+    console.log("name:", nameRef.current.value);
+    console.log("email:", emailRef.current.value);
+    console.log("subject:", subject);
+    console.log("message:", messageRef.current.value);
+  };
 
   return (
     <div>
-      <form className="contact-page" onSubmit={() => handelSubmitClick()}>
+      <form className="contact-page" onSubmit={handelSubmitClick}>
         <div className="left">
           <div className="overlay">
             <h1>Contact Us</h1>
@@ -81,17 +88,19 @@ const ContectUs = () => {
               className="contact-input contact-input-name"
               type="string"
               placeholder="Enter name *"
+              ref={nameRef}
               required
-              onBlur={() => handleChangeName()}
+              onBlur={handleChangeName}
             />
           </div>
           <div className="contact-email-continer inputs">
             <input
               className="contact-input contact-input-email"
               type="email"
+              ref={emailRef}
               placeholder="Enter email *"
               required
-              onBlur={() => handleChangeEmail()}
+              onBlur={handleChangeEmail}
             />
           </div>
           <div className="dropdown">
@@ -100,37 +109,26 @@ const ContectUs = () => {
               type="button"
               data-bs-toggle="dropdown"
               aria-expanded="true"
-              onClick={() => handelDropdwonClick()}
+              onClick={handelDropdwonClick}
             >
-              Contact us concerning: *
+              {subject}
             </button>
             <ul
               className="dropdown-menu"
-              id="dropdown-menu"
+              // id="dropdown-menu"
+              ref={menuRef}
               style={{ display: "none" }}
             >
-              <li
-                className="dropdown-item"
-                onClick={(e) => handelDropdwonItemClick(e)}
-              >
+              <li className="dropdown-item" onClick={handelDropdwonItemClick}>
                 Erorr in login
               </li>
-              <li
-                className="dropdown-item"
-                onClick={(e) => handelDropdwonItemClick(e)}
-              >
+              <li className="dropdown-item" onClick={handelDropdwonItemClick}>
                 Erorr in signin
               </li>
-              <li
-                className="dropdown-item"
-                onClick={(e) => handelDropdwonItemClick(e)}
-              >
+              <li className="dropdown-item" onClick={handelDropdwonItemClick}>
                 About us
               </li>
-              <li
-                className="dropdown-item"
-                onClick={(e) => handelDropdwonItemClick(e)}
-              >
+              <li className="dropdown-item" onClick={handelDropdwonItemClick}>
                 Other
               </li>
             </ul>
@@ -138,7 +136,8 @@ const ContectUs = () => {
           <div className="contact-subject-continer inputs">
             <textarea
               className="form-control textarea-subject"
-              aria-label="Enter subject *"
+              // aria-label="Enter subject *"
+              ref={messageRef}
               required
             ></textarea>
           </div>

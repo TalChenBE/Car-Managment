@@ -1,34 +1,51 @@
-import { useRef } from "react";
-import { Link } from "react-router-dom";
+import { useRef, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import useAuth from "../../hooks/useAuth";
+import axios from "../../api/axios";
+import ReCAPTCHA from "react-google-recaptcha";
 import "./Signup.css";
 
-const Signin = () => {
-  const errorRef = useRef(null);
+const SIGNUP_URL = "/register";
 
-  let isPasswordValid = false;
+const Signin = () => {
+  // const { setAuth } = useAuth();
+
+  const [firstname, setFirstname] = useState(""); //Tal Chen
+  const [lastName, setLastname] = useState(""); //Ben-Eliyahu
+  const [email, setEmail] = useState(""); //Talchenben1234@gmail.com
+  const [password, setPassword] = useState(""); // Tt123@
+  const [passwordConfirm, setPasswordConfirm] = useState("");
+  const [isPasswordValid, setIsPasswordValid] = useState(false);
+
+  const firstnameRef = useRef(null);
+  const lastnameRef = useRef(null);
+  const ganderFRef = useRef(null);
+  const ganderMRef = useRef(null);
+  const ganderORef = useRef(null);
+  const errorRef = useRef(null);
+  const emailRef = useRef(null);
+  const passwordRef = useRef(null);
+  const passwordConfirmRef = useRef(null);
+
+  const navigate = useNavigate();
+
+  // let isPasswordValid = false;
   let isTrueLength, hasUpperCase, hasLowerCase, hasNum, format, hasSpecialChar;
-  let passwordVal;
 
   const handleChangeEmail = () => {
-    const emailInput = document.getElementsByClassName("signup-input-email")[0];
-    if (emailInput.checkValidity() === false)
-      emailInput.style.borderBottom = "2px solid red";
-    else emailInput.style.borderBottom = " 2px solid #b0b3b9";
+    if (emailRef.current.checkValidity() === false)
+      emailRef.current.style.borderBottom = "2px solid red";
+    else emailRef.current.style.borderBottom = " 2px solid #b0b3b9";
   };
 
   const handleChangePassword = () => {
-    console.log("handleChangePassword:");
-    const passwordInput = document.getElementsByClassName(
-      "signup-input-password"
-    )[0];
-
-    isTrueLength = passwordInput.value.length >= 6;
-    hasUpperCase = /[A-Z]/.test(passwordInput.value);
-    hasLowerCase = /[a-z]/.test(passwordInput.value);
-    hasNum = /[1-9]/.test(passwordInput.value);
+    isTrueLength = password.length >= 6;
+    hasUpperCase = /[A-Z]/.test(password);
+    hasLowerCase = /[a-z]/.test(password);
+    hasNum = /[1-9]/.test(password);
 
     format = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
-    hasSpecialChar = format.test(passwordInput.value);
+    hasSpecialChar = format.test(password);
 
     if (
       isTrueLength &&
@@ -37,32 +54,28 @@ const Signin = () => {
       hasNum &&
       hasSpecialChar
     )
-      isPasswordValid = true;
+      setIsPasswordValid(true);
 
     if (isPasswordValid === false)
-      passwordInput.style.borderBottom = "2px solid red";
-    else {
-      passwordInput.style.borderBottom = " 2px solid #b0b3b9";
-      passwordVal = passwordInput.value;
-    }
+      passwordRef.current.style.borderBottom = "2px solid red";
+    else passwordRef.current.style.borderBottom = " 2px solid #b0b3b9";
   };
 
   const handleChangeConfirmPassword = () => {
-    const passwordInput = document.getElementsByClassName(
-      "signup-input-confirm-password"
-    )[0];
     const element = document.getElementById("confirm-password-text");
 
-    if (isPasswordValid && passwordInput.value === passwordVal) {
-      passwordInput.style.borderBottom = " 2px solid #b0b3b9";
+    if (isPasswordValid && passwordConfirm === password) {
+      passwordConfirmRef.current.style.borderBottom = " 2px solid #b0b3b9";
       element.innerHTML = "";
     } else {
-      passwordInput.style.borderBottom = "2px solid red";
+      passwordConfirmRef.current.style.borderBottom = "2px solid red";
       element.innerHTML = "The passwords do not match";
     }
   };
 
-  const handelSubmitClick = (e) => {
+  const handelSubmitClick = async (e) => {
+    e.preventDefault();
+
     if (isPasswordValid === false) {
       errorRef.current.innerText = `ERORR: the password is incorrect!!${
         !isTrueLength ? "\nThe length mast be at lest 6 chars" : ""
@@ -71,8 +84,47 @@ const Signin = () => {
       }${!hasNum ? "\nThe password mast includes Numner" : ""}${
         !hasSpecialChar ? "\nThe password mast includes Spacial chars" : ""
       }`;
-      e.preventDefault();
-    } else alert("You are sign in!");
+    } else {
+      try {
+        const gander = ganderFRef.current.checked
+          ? "female"
+          : ganderMRef.current.checked
+          ? "male"
+          : "other";
+        const response = await axios.post(
+          SIGNUP_URL,
+          JSON.stringify({
+            firstname: firstname,
+            lastName: lastName,
+            email: email,
+            password: password,
+            gander: gander,
+          }),
+          {
+            headers: { "Content-Type": "application/json" },
+            withCredentials: true,
+          }
+        );
+        console.log(JSON.stringify(response?.data));
+        // const accessToken = response?.data?.accessToken;
+        // setAuth({ email: email, password: password, accessToken });
+        setFirstname("");
+        setLastname("");
+        setEmail("");
+        setPassword("");
+        navigate("/Login");
+      } catch (err) {
+        if (!err?.response) {
+          errorRef.current.innerText = `No Server Response`;
+        } else if (err.response?.status === 400) {
+          errorRef.current.innerText = `Missing Username or Password`;
+        } else if (err.response?.status === 401) {
+          errorRef.current.innerText = `Unauthorized`;
+        } else {
+          errorRef.current.innerText = `Login Failed`;
+        }
+      }
+    }
   };
 
   return (
@@ -89,35 +141,105 @@ const Signin = () => {
 
         <div className="right">
           <h2 className="signup-header">Signup</h2>
-          <div className="signup-email-continer inputs">
-            <i className="bi bi-envelope-at"></i>
-            <input
-              className="signup-input signup-input-email"
-              type="email"
-              placeholder="Enter Email *"
-              required
-              onBlur={() => handleChangeEmail()}
-            />
-          </div>
-          <div className="signup-password-continer inputs">
-            <i className="bi bi-lock"></i>
-            <input
-              className="signup-input signup-input-password"
-              type="password"
-              placeholder="Enter Password *"
-              onBlur={() => handleChangePassword()}
-              required
-            />
-          </div>
-          <div className="signup-password-continer inputs">
-            <i className="bi bi-lock"></i>
-            <input
-              className="signup-input signup-input-confirm-password"
-              type="password"
-              placeholder="Confirm Password *"
-              onBlur={() => handleChangeConfirmPassword()}
-              required
-            />
+          <div className="signup-ditails-container">
+            <div>
+              <div className="signup-firstname-continer inputs">
+                <input
+                  className="signup-input signup-input-firstname"
+                  ref={firstnameRef}
+                  type="text"
+                  value={firstname}
+                  onChange={(e) => setFirstname(e.target.value)}
+                  placeholder="Enter First Name *"
+                  required
+                />
+              </div>
+              <div className="signup-lastname-continer inputs">
+                <input
+                  className="signup-input signup-input-lastname"
+                  ref={lastnameRef}
+                  type="text"
+                  value={lastName}
+                  onChange={(e) => setLastname(e.target.value)}
+                  placeholder="Enter Last Name *"
+                  required
+                />
+              </div>
+              <div className="signup-gender-continer inputs">
+                <label> Gander:</label>
+                <div>
+                  <input
+                    type="radio"
+                    id="female"
+                    name="drone"
+                    value="female"
+                    ref={ganderFRef}
+                  />
+                  <label htmlFor="female">Female</label>
+                </div>
+                <div>
+                  <input
+                    type="radio"
+                    id="male"
+                    name="drone"
+                    value="male"
+                    ref={ganderMRef}
+                  />
+                  <label htmlFor="male">Male</label>
+                </div>
+                <div>
+                  <input
+                    type="radio"
+                    id="other"
+                    name="drone"
+                    value="other"
+                    ref={ganderORef}
+                  />
+                  <label htmlFor="other">Other</label>
+                </div>
+              </div>
+            </div>
+            <div>
+              <div className="signup-email-continer inputs">
+                <i className="bi bi-envelope-at"></i>
+                <input
+                  className="signup-input signup-input-email"
+                  ref={emailRef}
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="Enter Email *"
+                  required
+                  onBlur={() => handleChangeEmail()}
+                />
+              </div>
+              <div className="signup-password-continer inputs">
+                <i className="bi bi-lock"></i>
+                <input
+                  className="signup-input signup-input-password"
+                  ref={passwordRef}
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="Enter Password *"
+                  onBlur={() => handleChangePassword()}
+                  required
+                />
+              </div>
+              <div className="signup-password-continer inputs">
+                <i className="bi bi-lock"></i>
+                <input
+                  className="signup-input signup-input-confirm-password"
+                  ref={passwordConfirmRef}
+                  type="password"
+                  value={passwordConfirm}
+                  onChange={(e) => setPasswordConfirm(e.target.value)}
+                  placeholder="Confirm Password *"
+                  onBlur={() => handleChangeConfirmPassword()}
+                  required
+                />
+              </div>
+            </div>
           </div>
           <div id="confirm-password-text"></div>
           <div ref={errorRef} className="login-error-msg"></div>

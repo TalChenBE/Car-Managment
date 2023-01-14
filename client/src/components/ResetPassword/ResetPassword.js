@@ -90,6 +90,32 @@ const ForgetPassword = () => {
             onBlur={() => handleChangeEmail()}
           />
         </div>
+        {/* <div className="signup-password-continer inputs">
+          <i className="bi bi-lock"></i>
+          <input
+            className="signup-input signup-input-password"
+            ref={passwordRef}
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="Enter Password *"
+            onBlur={() => handleChangePassword()}
+            required
+          />
+        </div>
+        <div className="signup-password-continer inputs">
+          <i className="bi bi-lock"></i>
+          <input
+            className="signup-input signup-input-confirm-password"
+            ref={passwordConfirmRef}
+            type="password"
+            value={passwordConfirm}
+            onChange={(e) => setPasswordConfirm(e.target.value)}
+            placeholder="Confirm Password *"
+            onBlur={() => handleChangeConfirmPassword()}
+            required
+          />
+        </div> */}
         <div ref={errorRef} className="forget-password-error-msg"></div>
         <div className="submit-continer">
           <button

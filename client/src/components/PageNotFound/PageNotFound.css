@@ -1,0 +1,19 @@
+.page-not-found {
+  padding: 30px;
+  text-align: center;
+  min-height: 90vh;
+  color: #5a5c69;
+  background: #cfcfd375;
+}
+
+.page-not-found .error {
+  display: contents;
+  font-size: 7rem;
+  position: relative;
+  line-height: 1;
+  width: 12.5rem;
+}
+
+.page-not-found p {
+  color: #a0a2af;
+}

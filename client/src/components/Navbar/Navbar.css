@@ -20,6 +20,12 @@
   background: rgba(128, 128, 128, 0.636);
 }
 
+.navbar-a {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
 .navbar-img-container {
   display: flex;
   align-items: center;

@@ -9,20 +9,22 @@ import {
   Signup,
   ContectUs,
   Dashboard,
+  PageNotFound,
 } from "./dev";
 
 function App() {
   return (
     <div className="App">
-      <Navbar />
+      <Navbar fullName="FirstName LastName" gender="female" />
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<HomePage />} />
+          <Route path="/" element={<Login />} />
           <Route path="/Login" element={<Login />} />
           <Route path="/ForgetPassword" element={<ForgetPassword />} />
           <Route path="/Signup" element={<Signup />} />
           <Route path="/ContectUs" element={<ContectUs />} />
           <Route path="/Dashboard" element={<Dashboard />} />
+          <Route path="/PageNotFound" element={<PageNotFound />} />
         </Routes>
       </BrowserRouter>
       <footer className="sticky-footer bg-white">

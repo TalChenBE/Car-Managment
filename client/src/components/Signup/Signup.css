@@ -9,7 +9,7 @@ body {
 
 .signup-page {
   margin: 50px auto;
-  width: 60%;
+  width: 75%;
   background: #ffffff;
   border-radius: 10px;
   overflow: hidden;
@@ -80,6 +80,14 @@ body {
   font-size: 5vmax;
 }
 
+.signup-ditails-container {
+  display: flex;
+}
+@media (max-width: 700px) {
+  .signup-ditails-container {
+    flex-direction: column;
+  }
+}
 .signup-page .right .inputs {
   width: 300px;
   padding: 10px;
