@@ -3,9 +3,13 @@ import female from "../../utils/icons/female.svg";
 import car from "../../utils/icons/car.svg";
 import exit from "../../utils/icons/exit.png";
 import Sidenav from "../Sidenav/Sidenav";
+import { useCookies } from "react-cookie";
 import "./Navbar.css";
 
 const Navbar = ({ fullName, gender }) => {
+  const [cookies, setCookie, removeCookie] = useCookies(["cookie-name"]);
+  console.log("Navbar:", { cookies, setCookie, removeCookie });
+
   const handleExitClick = (e) => {
     console.log("user Exit");
   };

@@ -3,12 +3,14 @@ import { Link, useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 import axios from "../../api/axios";
 import ReCAPTCHA from "react-google-recaptcha";
+import { useCookies } from "react-cookie";
 import "./Login.css";
 
 const LOGIN_URL = "/auth";
 
 const Login = () => {
   const { setAuth } = useAuth();
+  const [cookies, setCookie, removeCookie] = useCookies(["cookie-name"]);
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -62,6 +64,7 @@ const Login = () => {
         !hasSpecialChar ? "\nThe password mast includes Spacial chars" : ""
       }`;
     } else {
+      passwordRef.current.style.borderBottom = " 2px solid #13b8609b";
       try {
         const response = await axios.post(
           LOGIN_URL,
@@ -75,6 +78,13 @@ const Login = () => {
           }
         );
         console.log(JSON.stringify(response?.data));
+        const user = response?.data.foundUser;
+
+        setCookie("firstname", user.firstname, { path: "/", secure: true });
+        setCookie("lastName", user.lastName, {});
+        setCookie("gander", user.gander, {});
+
+        console.log("Cookie:", cookies);
         const accessToken = response?.data?.accessToken;
         // setAuth({ email: email, password: password, accessToken });
         setEmail("");

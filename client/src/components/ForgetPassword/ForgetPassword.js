@@ -28,6 +28,7 @@ const ForgetPassword = () => {
       errorRef.current.style.background = "unset";
       errorRef.current.style.color = "#ff0000cf";
     } else {
+      // emailInput.current.style.borderBottom = " 2px solid #13b8609b";
       try {
         console.log("emailInput.current.value:", emailInput.current.value);
         const response = await axios.post(
