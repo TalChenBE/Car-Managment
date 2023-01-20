@@ -11,6 +11,7 @@ import {
   Dashboard,
   PageNotFound,
 } from "./dev";
+import RequireAuth from "./components/Auth/RequireAuth";
 
 function App() {
   return (
@@ -18,14 +19,19 @@ function App() {
       <Navbar />
       <BrowserRouter>
         <Routes>
+          {/* public routes*/}
           <Route path="/" element={<Login />} />
           <Route path="/Login" element={<Login />} />
           <Route path="/ForgetPassword" element={<ForgetPassword />} />
           <Route path="/Signup" element={<Signup />} />
           <Route path="/ContectUs" element={<ContectUs />} />
-          <Route path="/Dashboard" element={<Dashboard />} />
           <Route path="/ResetPassword/:token" element={<ResetPassword />} />
           <Route path="/*" element={<PageNotFound />} />
+
+          {/* protected routes */}
+          <Route element={<RequireAuth />}>
+            <Route path="/Dashboard" element={<Dashboard />} />
+          </Route>
         </Routes>
       </BrowserRouter>
       <footer className="sticky-footer bg-white">

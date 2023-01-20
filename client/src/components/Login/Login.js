@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 import axios from "../../api/axios";
 import ReCAPTCHA from "react-google-recaptcha";
@@ -10,6 +10,9 @@ const LOGIN_URL = "/auth";
 
 const Login = () => {
   const { setAuth } = useAuth();
+
+  const navigate = useNavigate();
+
   const [cookies, setCookie] = useCookies(["cookie-name"]);
 
   const [email, setEmail] = useState("");
@@ -20,7 +23,7 @@ const Login = () => {
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
 
-  const navigate = useNavigate();
+
 
   let isTrueLength, hasUpperCase, hasLowerCase, hasNum, format, hasSpecialChar;
 
@@ -78,15 +81,20 @@ const Login = () => {
           }
         );
         console.log(JSON.stringify(response?.data));
-        const user = response?.data.foundUser;
 
-        setCookie("firstName", user.firstname, { path: "/", secure: true });
-        setCookie("lastName", user.lastName, { path: "/", secure: true });
-        setCookie("gender", user.gender, { path: "/", secure: true });
+        const userInfo = response?.data.foundUser;
+
+
+        setCookie("firstName", userInfo.firstname, { path: "/", secure: true });
+        setCookie("lastName", userInfo.lastName, { path: "/", secure: true });
+        setCookie("gender", userInfo.gender, { path: "/", secure: true });
 
         console.log("Cookie:", cookies);
-        const accessToken = response?.data?.accessToken;
-        // setAuth({ email: email, password: password, accessToken });
+        const user = {
+          email: userInfo.email,
+          accessToken: response?.data.accessToken,
+        }
+        setAuth({ user });
         setEmail("");
         setPassword("");
         console.log("hello move to dashboard!");
