@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import {useEffect, useRef, useState} from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 import axios from "../../api/axios";
@@ -9,7 +9,7 @@ import "./Login.css";
 const LOGIN_URL = "/auth";
 
 const Login = () => {
-  const { setAuth } = useAuth();
+  const { setAuth, persist, setPersist } = useAuth();
 
   const navigate = useNavigate();
 
@@ -105,6 +105,14 @@ const Login = () => {
     }
   };
 
+  const togglePersist = () => {
+    setPersist(prev => !prev);
+  }
+
+  useEffect(() => {
+    localStorage.setItem("persist", persist);
+  },[persist])
+
   return (
     <div>
       <form className="login-page" onSubmit={(e) => handelSubmitClick(e)}>
@@ -155,6 +163,10 @@ const Login = () => {
           /> */}
           <div className="submit-continer">
             <input className="submit-button" type="submit" value="Submit" />
+            <div className="persistCheck">
+              <input type="checkbox" id="persist" onChange={togglePersist} checked={persist}/>
+              <label htmlFor="persist">remember me</label>
+            </div>
           </div>
           <span className="link-sign-up">
             Need an account?

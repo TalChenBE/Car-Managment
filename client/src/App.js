@@ -12,6 +12,7 @@ import {
   PageNotFound,
 } from "./dev";
 import RequireAuth from "./components/Auth/RequireAuth";
+import PersistLogin from "./components/PersistLogin/PersistLogin";
 
 function App() {
   return (
@@ -29,8 +30,10 @@ function App() {
           <Route path="/*" element={<PageNotFound />} />
 
           {/* protected routes */}
-          <Route element={<RequireAuth />}>
-            <Route path="/Dashboard" element={<Dashboard />} />
+          <Route element={<PersistLogin />}>
+            <Route element={<RequireAuth />}>
+              <Route path="/Dashboard" element={<Dashboard />} />
+            </Route>
           </Route>
         </Routes>
       </BrowserRouter>

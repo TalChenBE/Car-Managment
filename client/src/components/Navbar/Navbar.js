@@ -6,9 +6,13 @@ import Sidenav from "../Sidenav/Sidenav";
 import { useCookies } from "react-cookie";
 import "./Navbar.css";
 import { useEffect } from "react";
+import useLogout from "../../hooks/useLogout";
+import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
   const [cookies, removeCookie] = useCookies(["cookie-name"]);
+  const logout = useLogout();
+  // const nav = useNavigate();
 
   useEffect(() => {
     console.log("gender:", cookies?.gender);
@@ -16,8 +20,9 @@ const Navbar = () => {
     console.log("lastName:", cookies?.lastName);
   }, [cookies]);
 
-  const handleExitClick = (e) => {
+  const handleExitClick = async (e) => {
     console.log("user Exit");
+    await logout();
     removeCookie();
   };
 
