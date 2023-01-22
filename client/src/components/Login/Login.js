@@ -9,7 +9,7 @@ import "./Login.css";
 const LOGIN_URL = "/auth";
 
 const Login = () => {
-  const { setAuth, persist, setPersist } = useAuth();
+  const { setAuth, persist, setPersist, session, setSession } = useAuth();
 
   const navigate = useNavigate();
 
@@ -109,13 +109,21 @@ const Login = () => {
     setPersist(prev => !prev);
   }
 
+  const toggleSession = () => {
+    setSession(prev => !prev);
+  }
+
   useEffect(() => {
     localStorage.setItem("persist", persist);
   },[persist])
 
+  useEffect(() => {
+    window.sessionStorage.setItem("session", session);
+  },[session])
+
   return (
     <div>
-      <form className="login-page" onSubmit={(e) => handelSubmitClick(e)}>
+      <form className="login-page" onSubmit={(e) => { handelSubmitClick(e); toggleSession() }}>
         <div className="left">
           <div className="overlay">
             <h2>Nice to have you here</h2>

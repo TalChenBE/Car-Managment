@@ -13,6 +13,7 @@ import {
 } from "./dev";
 import RequireAuth from "./components/Auth/RequireAuth";
 import PersistLogin from "./components/PersistLogin/PersistLogin";
+import SessionLogin from "./components/PersistLogin/SessionLogin";
 
 function App() {
   return (
@@ -30,9 +31,11 @@ function App() {
           <Route path="/*" element={<PageNotFound />} />
 
           {/* protected routes */}
-          <Route element={<PersistLogin />}>
-            <Route element={<RequireAuth />}>
-              <Route path="/Dashboard" element={<Dashboard />} />
+          <Route element={<SessionLogin />}>
+            <Route element={<PersistLogin />}>
+              <Route element={<RequireAuth />}>
+                <Route path="/Dashboard" element={<Dashboard />} />
+              </Route>
             </Route>
           </Route>
         </Routes>
