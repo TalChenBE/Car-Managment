@@ -69,8 +69,8 @@ const Login = () => {
       passwordRef.current.style.borderBottom = " 2px solid #13b8609b";
       try {
         e.preventDefault();
-        // const token = captchaRef.current.getValue();
-        const token = await captchaRef.current.executeAsync();
+        const token = captchaRef.current.getValue();
+        // const token = await captchaRef.current.executeAsync();
         console.log("token", token);
         captchaRef.current.reset();
 
