@@ -170,11 +170,11 @@ const Login = () => {
             <label htmlFor="persist">remember me</label>
           </div>
           <div ref={errorRef} className="login-error-msg"></div>
-          <ReCAPTCHA
+          {/* <ReCAPTCHA
             sitekey={process.env.REACT_APP_SITE_KEY}
             ref={captchaRef}
             onChange={() => console.log("reCAPTCHA change!")}
-          />
+          /> */}
           <div className="submit-continer">
             <input className="submit-button" type="submit" value="Submit" />
           </div>
