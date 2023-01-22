@@ -135,6 +135,7 @@ const Login = () => {
     window.sessionStorage.setItem("session", session);
   }, [session]);
 
+
   return (
     <div>
       <form
@@ -200,7 +201,6 @@ const Login = () => {
               ref={captchaRef}
               onChange={handleRecapcha}
             />
-          </div>
           <input className="submit-button" type="submit" value="Submit" />
 
           <span className="link-sign-up">
