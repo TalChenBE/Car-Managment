@@ -2,13 +2,12 @@ import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 import axios from "../../api/axios";
-import ReCAPTCHA from "react-google-recaptcha"
+import ReCAPTCHA from "react-google-recaptcha";
 import { useCookies } from "react-cookie";
 import "./Login.css";
 
 const LOGIN_URL = "/auth";
 const RECAPCHA_URL = "/recapcha";
-
 
 const Login = () => {
   const { auth, setAuth, persist, setPersist, session, setSession } = useAuth();
@@ -45,25 +44,22 @@ const Login = () => {
     hasSpecialChar = format.test(password);
 
     if (
-        isTrueLength &&
-        hasUpperCase &&
-        hasLowerCase &&
-        hasNum &&
-        hasSpecialChar
-    ){
+      isTrueLength &&
+      hasUpperCase &&
+      hasLowerCase &&
+      hasNum &&
+      hasSpecialChar
+    ) {
       setIsPasswordValid(true);
       passwordRef.current.style.borderBottom = " 2px solid #13b8609b";
-    }
-    else
-      passwordRef.current.style.borderBottom = "2px solid red";
+    } else passwordRef.current.style.borderBottom = "2px solid red";
   };
 
   const handelSubmitClick = async (e) => {
     e.preventDefault();
-    if (recapcha === false){
-      errorRef.current.innerText = `Failed in reacapcha - try again`
-    }
-    else if (isPasswordValid === false) {
+    if (recapcha === false) {
+      errorRef.current.innerText = `Failed in reacapcha - try again`;
+    } else if (isPasswordValid === false) {
       errorRef.current.innerText = `ERORR: the password is incorrect!!${
         !isTrueLength ? "\nThe length must be at last 6 chars" : ""
       }${!hasUpperCase ? "\nThe password must includes upper case" : ""}${
@@ -116,32 +112,39 @@ const Login = () => {
 
   const handleRecapcha = async () => {
     const token = captchaRef.current.getValue();
-    await axios.post(RECAPCHA_URL, {token})
-        .then(res =>  {
-          setRecapcha(true);
-          console.log(res)}
-        )
-        .catch((error) => {
-          console.log(error);
-          captchaRef.current.reset();
-          setRecapcha(false)
-        })
-  }
+    await axios
+      .post(RECAPCHA_URL, { token })
+      .then((res) => {
+        setRecapcha(true);
+        console.log(res);
+      })
+      .catch((error) => {
+        console.log(error);
+        captchaRef.current.reset();
+        setRecapcha(false);
+      });
+  };
   const togglePersist = () => {
     setPersist((prev) => !prev);
   };
 
   useEffect(() => {
     localStorage.setItem("persist", persist);
-  },[persist]);
+  }, [persist]);
 
   useEffect(() => {
     window.sessionStorage.setItem("session", session);
-  },[session]);
+  }, [session]);
 
   return (
     <div>
-      <form className="login-page" onSubmit={(e) => { handelSubmitClick(e); setSession(true); }}>
+      <form
+        className="login-page"
+        onSubmit={(e) => {
+          handelSubmitClick(e);
+          setSession(true);
+        }}
+      >
         <div className="left">
           <div className="overlay">
             <h2>Nice to have you here</h2>
@@ -194,12 +197,12 @@ const Login = () => {
           <div ref={errorRef} className="login-error-msg"></div>
           <div className="submit-continer">
             <ReCAPTCHA
-                sitekey={process.env.REACT_APP_SITE_KEY}
-                ref={captchaRef}
-                onChange={handleRecapcha}
+              sitekey={process.env.REACT_APP_SITE_KEY}
+              ref={captchaRef}
+              onChange={handleRecapcha}
             />
           </div>
-            <input className="submit-button" type="submit" value="Submit" />
+          <input className="submit-button" type="submit" value="Submit" />
 
           <span className="link-sign-up">
             Need an account?
