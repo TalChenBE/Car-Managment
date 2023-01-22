@@ -129,11 +129,11 @@ const Login = () => {
 
   useEffect(() => {
     localStorage.setItem("persist", persist);
-  },[persist])
+  },[persist]);
 
   useEffect(() => {
     window.sessionStorage.setItem("session", session);
-  },[session])
+  },[session]);
 
   return (
     <div>
@@ -179,10 +179,6 @@ const Login = () => {
             forget password?
           </Link>
           <div ref={errorRef} className="login-error-msg"></div>
-          {/* <ReCAPTCHA
-            sitekey="YOUR-SITE-KEY"
-            onChange={() => console.log("reCAPTCHA change!")}
-          /> */}
           <div className="submit-continer">
             <ReCAPTCHA
                 sitekey={process.env.REACT_APP_SITE_KEY}
