@@ -70,8 +70,8 @@ const Login = () => {
     } else {
       try {
         e.preventDefault();
-        // const token = captchaRef.current.getValue();
-        const token = await captchaRef.current.executeAsync();
+        const token = captchaRef.current.getValue();
+        // const token = await captchaRef.current.executeAsync();
         console.log("token", token);
         captchaRef.current.reset();
 
