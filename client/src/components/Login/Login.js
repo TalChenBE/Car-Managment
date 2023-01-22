@@ -22,7 +22,7 @@ const Login = () => {
   const errorRef = useRef(null);
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
-  const captchaRef = useRef(null);
+  // const captchaRef = useRef(null);
 
   let isTrueLength, hasUpperCase, hasLowerCase, hasNum, format, hasSpecialChar;
 
@@ -69,10 +69,10 @@ const Login = () => {
       passwordRef.current.style.borderBottom = " 2px solid #13b8609b";
       try {
         e.preventDefault();
-        const token = captchaRef.current.getValue();
+        // const token = captchaRef.current.getValue();
         // const token = await captchaRef.current.executeAsync();
-        console.log("token", token);
-        captchaRef.current.reset();
+        // console.log("token", token);
+        // captchaRef.current.reset();
 
         const response = await axios.post(
           LOGIN_URL,
