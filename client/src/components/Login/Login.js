@@ -2,11 +2,13 @@ import {useEffect, useRef, useState} from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 import axios from "../../api/axios";
-import ReCAPTCHA from "react-google-recaptcha";
+import ReCAPTCHA from "react-google-recaptcha"
 import { useCookies } from "react-cookie";
 import "./Login.css";
 
 const LOGIN_URL = "/auth";
+const RECAPCHA_URL = "/recapcha";
+
 
 const Login = () => {
   const { setAuth, persist, setPersist, session, setSession } = useAuth();
@@ -18,11 +20,12 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isPasswordValid, setIsPasswordValid] = useState(false);
-
+  const [recapcha, setRecapcha] = useState(false);
   const errorRef = useRef(null);
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
 
+  const captchaRef = useRef(null)
 
 
   let isTrueLength, hasUpperCase, hasLowerCase, hasNum, format, hasSpecialChar;
@@ -58,7 +61,10 @@ const Login = () => {
 
   const handelSubmitClick = async (e) => {
     e.preventDefault();
-    if (isPasswordValid === false) {
+    if (recapcha === false){
+      errorRef.current.innerText = `Failed in reacapcha - try again`
+    }
+    else if (isPasswordValid === false) {
       errorRef.current.innerText = `ERORR: the password is incorrect!!${
         !isTrueLength ? "\nThe length must be at last 6 chars" : ""
       }${!hasUpperCase ? "\nThe password must includes upper case" : ""}${
@@ -105,6 +111,20 @@ const Login = () => {
     }
   };
 
+  const handleRecapcha = async () => {
+    const token = captchaRef.current.getValue();
+    await axios.post(RECAPCHA_URL, {token})
+        .then(res =>  {
+          setRecapcha(true);
+          console.log(res)}
+        )
+        .catch((error) => {
+          console.log(error);
+          captchaRef.current.reset();
+          setRecapcha(false)
+        })
+
+  }
   const togglePersist = () => {
     setPersist(prev => !prev);
   }
@@ -174,6 +194,11 @@ const Login = () => {
             <div className="persistCheck">
               <input type="checkbox" id="persist" onChange={togglePersist} checked={persist}/>
               <label htmlFor="persist">remember me</label>
+              <ReCAPTCHA
+                  sitekey={process.env.REACT_APP_SITE_KEY}
+                  ref={captchaRef}
+                  onChange={handleRecapcha}
+              />
             </div>
           </div>
           <span className="link-sign-up">
