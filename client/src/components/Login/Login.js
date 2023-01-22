@@ -11,7 +11,6 @@ const RECAPCHA_URL = "/recapcha";
 
 
 const Login = () => {
-  window.
   const { auth, setAuth, persist, setPersist, session, setSession } = useAuth();
 
   const navigate = useNavigate();
@@ -28,13 +27,6 @@ const Login = () => {
 
   const [recapcha, setRecapcha] = useState(false);
   const captchaRef = useRef(null);
-
-  useEffect(() => {
-    console.log(`inside navigate: ${auth?.user}`)
-    if (auth?.user)
-      navigate("/Dashboard", {replace: true});
-  },[])
-
 
   let isTrueLength, hasUpperCase, hasLowerCase, hasNum, format, hasSpecialChar;
 

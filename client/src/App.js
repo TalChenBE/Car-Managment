@@ -21,11 +21,6 @@ function App() {
       <Navbar />
       <BrowserRouter>
         <Routes>
-          {/* public routes*/}
-          {/*<Route element={<PersistLogin />}>*/}
-          {/*  <Route path="/" element={<Login />} />*/}
-          {/*  <Route path="/Login" element={<Login />} />*/}
-          {/*</Route>*/}
           <Route path="/" element={<Login />} />
           <Route path="/Login" element={<Login />} />
           <Route path="/ForgetPassword" element={<ForgetPassword />} />
