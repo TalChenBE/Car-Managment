@@ -190,16 +190,17 @@ const Login = () => {
             onChange={() => console.log("reCAPTCHA change!")}
           /> */}
           <div className="submit-continer">
+            <ReCAPTCHA
+                sitekey={process.env.REACT_APP_SITE_KEY}
+                ref={captchaRef}
+                onChange={handleRecapcha}
+            />
+          </div>
             <input className="submit-button" type="submit" value="Submit" />
             <div className="persistCheck">
               <input type="checkbox" id="persist" onChange={togglePersist} checked={persist}/>
               <label htmlFor="persist">remember me</label>
-              <ReCAPTCHA
-                  sitekey={process.env.REACT_APP_SITE_KEY}
-                  ref={captchaRef}
-                  onChange={handleRecapcha}
-              />
-            </div>
+
           </div>
           <span className="link-sign-up">
             Need an account?
