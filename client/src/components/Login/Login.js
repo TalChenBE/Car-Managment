@@ -1,5 +1,5 @@
-import {useEffect, useRef, useState} from "react";
-import {Link, useNavigate, useLocation, Outlet, Navigate} from "react-router-dom";
+import { useEffect, useRef, useState } from "react";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 import axios from "../../api/axios";
 import ReCAPTCHA from "react-google-recaptcha"
@@ -24,7 +24,6 @@ const Login = () => {
   const errorRef = useRef(null);
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
-
   const [recapcha, setRecapcha] = useState(false);
   const captchaRef = useRef(null);
 
@@ -74,6 +73,12 @@ const Login = () => {
       }`;
     } else {
       try {
+        e.preventDefault();
+        // const token = captchaRef.current.getValue();
+        const token = await captchaRef.current.executeAsync();
+        console.log("token", token);
+        captchaRef.current.reset();
+
         const response = await axios.post(
           LOGIN_URL,
           JSON.stringify({
@@ -89,7 +94,6 @@ const Login = () => {
 
         const userInfo = response?.data.foundUser;
 
-
         setCookie("firstName", userInfo.firstname, { path: "/", secure: true });
         setCookie("lastName", userInfo.lastName, { path: "/", secure: true });
         setCookie("gender", userInfo.gender, { path: "/", secure: true });
@@ -98,7 +102,7 @@ const Login = () => {
         const user = {
           email: userInfo.email,
           accessToken: response?.data.accessToken,
-        }
+        };
         setAuth({ user });
         setEmail("");
         setPassword("");
@@ -124,8 +128,8 @@ const Login = () => {
         })
   }
   const togglePersist = () => {
-    setPersist(prev => !prev);
-  }
+    setPersist((prev) => !prev);
+  };
 
   useEffect(() => {
     localStorage.setItem("persist", persist);
@@ -178,6 +182,15 @@ const Login = () => {
           <Link className="forget-pass" to="/ForgetPassword">
             forget password?
           </Link>
+          <div className="persistCheck">
+            <input
+              type="checkbox"
+              id="persist"
+              onChange={togglePersist}
+              checked={persist}
+            />
+            <label htmlFor="persist">remember me</label>
+          </div>
           <div ref={errorRef} className="login-error-msg"></div>
           <div className="submit-continer">
             <ReCAPTCHA
@@ -187,11 +200,7 @@ const Login = () => {
             />
           </div>
             <input className="submit-button" type="submit" value="Submit" />
-            <div className="persistCheck">
-              <input type="checkbox" id="persist" onChange={togglePersist} checked={persist}/>
-              <label htmlFor="persist">remember me</label>
 
-          </div>
           <span className="link-sign-up">
             Need an account?
             <Link to="/Signup">Sign Up</Link>

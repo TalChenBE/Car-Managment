@@ -45,12 +45,6 @@ const Sidenav = () => {
         ))}
       </List>
       <Divider />
-      <ListItemButton>
-        <a className="sidenav-link" href="/">
-          Loguot
-        </a>
-      </ListItemButton>
-      <Divider />
     </Box>
   );
 

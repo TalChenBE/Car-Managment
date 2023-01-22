@@ -126,7 +126,10 @@ body {
 }
 
 .persistCheck {
-  font-size: 0.75rem;
+  display: flex;
+  width: inherit;
+  flex-direction: row;
+  font-size: 15px;
   margin-top: 10px;
   display: flex;
   justify-content: flex-start;

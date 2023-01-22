@@ -16,6 +16,7 @@
     "datatables.net-dt": "^1.13.1",
     "date-and-time": "^2.4.2",
     "dotenv": "^16.0.3",
+    "dotenv-safe": "^8.2.0",
     "jquery": "^3.6.3",
     "react": "^18.2.0",
     "react-cookie": "^4.1.1",
