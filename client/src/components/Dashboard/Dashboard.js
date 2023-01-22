@@ -1,16 +1,21 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import $ from "jquery";
 import { useEffect, useState } from "react";
-import axios from "../../api/axios";
 // import DataTables from "datatables.net-dt";
 import Table from "../Table/Table";
 import date from "date-and-time";
 import CircularProgress from "@mui/material/CircularProgress";
+import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import "./Dashboard.css";
+import {useNavigate, useLocation} from "react-router-dom";
 
 const DASHBOARD_URL = "/treatments";
 
 const Dashboard = () => {
+  const axiosPrivate = useAxiosPrivate();
+  const navigate = useNavigate();
+  const location = useLocation();
+
   const [tableData, setTableData] = useState(null);
   // Call the dataTables jQuery plugin
   $(document).ready(function () {
@@ -20,10 +25,7 @@ const Dashboard = () => {
   useEffect(() => {
     const getData = async () => {
       try {
-        const response = await axios.get(DASHBOARD_URL, {
-          headers: { "Content-Type": "application/json" },
-          withCredentials: true,
-        });
+        const response = await axiosPrivate.get(DASHBOARD_URL);
         // console.log(JSON.stringify(response?.data));
         const data = response?.data.data;
         const map = new Map();
@@ -37,6 +39,7 @@ const Dashboard = () => {
         // setAuth({ email: email, password: password, accessToken });
       } catch (err) {
         console.error(err?.response.data.message);
+        navigate('/Login', { state: {from: location}, replace: true });
       }
     };
 

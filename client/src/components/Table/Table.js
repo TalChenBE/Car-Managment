@@ -3,7 +3,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import $ from "jquery";
 import DataTables from "datatables.net-dt";
 import { useEffect, useState } from "react";
-import axios from "../../api/axios";
+import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import DialogTitle from "@mui/material/DialogTitle";
 import Dialog from "@mui/material/Dialog";
 import date from "date-and-time";
@@ -34,6 +34,8 @@ const Table = ({ tableData = EMPTY_ARRAY, headers = EMPTY_ARRAY }) => {
 
   const tableRef = useRef(null);
 
+  const axiosPrivate = useAxiosPrivate();
+
   $(document).ready(function () {
     $("#dataTable").DataTable();
   });
@@ -52,9 +54,7 @@ const Table = ({ tableData = EMPTY_ARRAY, headers = EMPTY_ARRAY }) => {
 
   const onCreate = async (row_object) => {
     try {
-      const response = await axios.post(TREATMENT_CREATE_URL, row_object, {
-        headers: { "Content-Type": "application/json" },
-      });
+      const response = await axiosPrivate.post(TREATMENT_CREATE_URL, row_object);
       // console.log(JSON.stringify(response?.data));
       const result = response?.data.result;
       result.Date = date.format(new Date(result.Date), "YYYY-MM-DD");
@@ -71,8 +71,7 @@ const Table = ({ tableData = EMPTY_ARRAY, headers = EMPTY_ARRAY }) => {
 
   const onDelete = async (treatmentNum) => {
     try {
-      const response = await axios.delete(TREATMENT_DELETE_URL, {
-        headers: { "Content-Type": "application/json" },
+      const response = await axiosPrivate.delete(TREATMENT_DELETE_URL, {
         params: { treatmentNumber: treatmentNum },
       });
       console.log(JSON.stringify(response?.data));
@@ -88,7 +87,7 @@ const Table = ({ tableData = EMPTY_ARRAY, headers = EMPTY_ARRAY }) => {
 
   const updateTreatment = async (treatmentNum, row_object) => {
     try {
-      const response = await axios.put(TREATMENT_PUT_URL, row_object, {
+      const response = await axiosPrivate.put(TREATMENT_PUT_URL, row_object, {
         headers: { "Content-Type": "application/json" },
         params: { treatmentNumber: treatmentNum },
       });
