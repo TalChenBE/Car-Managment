@@ -4,26 +4,20 @@ import car from "../../utils/icons/car.svg";
 import exit from "../../utils/icons/exit.png";
 import Sidenav from "../Sidenav/Sidenav";
 import { useCookies } from "react-cookie";
-import "./Navbar.css";
-import { useEffect } from "react";
 import useLogout from "../../hooks/useLogout";
-import { useNavigate } from "react-router-dom";
+import "./Navbar.css";
 
 const Navbar = () => {
-  const [cookies, removeCookie] = useCookies(["cookie-name"]);
+  const [cookies, setCookie, removeCookie] = useCookies(["cookie-name"]);
   const logout = useLogout();
   // const nav = useNavigate();
-
-  useEffect(() => {
-    console.log("gender:", cookies?.gender);
-    console.log("firstName:", cookies?.firstName);
-    console.log("lastName:", cookies?.lastName);
-  }, [cookies]);
 
   const handleExitClick = async (e) => {
     console.log("user Exit");
     await logout();
-    removeCookie();
+    setCookie("firstName", "Hello ", { path: "/", secure: true });
+    setCookie("lastName", "Welcome", { path: "/", secure: true });
+    removeCookie("gender", { path: "/", secure: true });
   };
 
   return (
