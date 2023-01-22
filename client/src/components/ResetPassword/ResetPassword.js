@@ -29,17 +29,17 @@ const ResetPassword = () => {
     hasSpecialChar = format.test(password);
 
     if (
-      isTrueLength &&
-      hasUpperCase &&
-      hasLowerCase &&
-      hasNum &&
-      hasSpecialChar
-    )
+        isTrueLength &&
+        hasUpperCase &&
+        hasLowerCase &&
+        hasNum &&
+        hasSpecialChar
+    ){
       setIsPasswordValid(true);
-
-    if (isPasswordValid === false)
+      passwordRef.current.style.borderBottom = " 2px solid #13b8609b";
+    }
+    else
       passwordRef.current.style.borderBottom = "2px solid red";
-    else passwordRef.current.style.borderBottom = " 2px solid #b0b3b9";
     if (isPasswordValid && passwordConfirm === password) {
       const element = document.getElementById("confirm-password-text");
       element.innerHTML = "";
@@ -89,7 +89,7 @@ const ResetPassword = () => {
         console.error(err?.response.data.message);
       }
     } else {
-      errorRef.innerHTML = "passeord are not equal";
+      errorRef.innerHTML = "password are not equal";
     }
   };
 

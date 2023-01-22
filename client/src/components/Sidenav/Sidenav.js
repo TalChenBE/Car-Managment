@@ -20,7 +20,7 @@ const Sidenav = () => {
     >
       <ListItemButton>
         <a className="sidenav-link" href="/Dashboard">
-          Dashboard
+          Home
         </a>
       </ListItemButton>
 

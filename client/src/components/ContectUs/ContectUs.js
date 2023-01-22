@@ -99,7 +99,7 @@ const ContectUs = () => {
                   <h2>MAIL US NOW</h2>
                   <span className="flex-container">
                     <i className="fa fa-envelope"></i>
-                    <p>contact_us@best.pro.co.il</p>
+                    <p>car.managemnet.service@<br/>gmail.com</p>
                   </span>
                 </div>
               </div>

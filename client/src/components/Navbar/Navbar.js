@@ -8,9 +8,11 @@ import "./Navbar.css";
 import { useEffect } from "react";
 import useLogout from "../../hooks/useLogout";
 import { useNavigate } from "react-router-dom";
+import useAuth from "../../hooks/useAuth";
 
 const Navbar = () => {
   const [cookies, removeCookie] = useCookies(["cookie-name"]);
+  const { setSession } = useAuth();
   const logout = useLogout();
   // const nav = useNavigate();
 
@@ -22,6 +24,7 @@ const Navbar = () => {
 
   const handleExitClick = async (e) => {
     console.log("user Exit");
+    setSession(false);
     await logout();
     removeCookie();
   };
@@ -50,12 +53,12 @@ const Navbar = () => {
           (cookies?.lastName === undefined ? "Welcome" : cookies?.lastName)}
       </h6>
 
-      <a className="navbar-title-ContectUs" href="../ContectUs">
-        Contect Us
+      <a className="navbar-title-ContectUs" href="../ContactUs">
+        Contact Us
       </a>
       <div className="navbar-divider"></div>
       <a href="/Dashboard" className="navbar-a">
-        <h4 className="navbar-title">Car Menagment</h4>
+        <h4 className="navbar-title">Car Management</h4>
         <img src={car} alt="car-icon" className="navbar-img-icon"></img>
       </a>
       <Sidenav />

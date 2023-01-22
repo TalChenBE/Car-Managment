@@ -1,5 +1,5 @@
 import {useEffect, useRef, useState} from "react";
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import {Link, useNavigate, useLocation, Outlet, Navigate} from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 import axios from "../../api/axios";
 import ReCAPTCHA from "react-google-recaptcha"
@@ -11,7 +11,8 @@ const RECAPCHA_URL = "/recapcha";
 
 
 const Login = () => {
-  const { setAuth, persist, setPersist, session, setSession } = useAuth();
+  window.
+  const { auth, setAuth, persist, setPersist, session, setSession } = useAuth();
 
   const navigate = useNavigate();
 
@@ -20,12 +21,19 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isPasswordValid, setIsPasswordValid] = useState(false);
-  const [recapcha, setRecapcha] = useState(false);
+
   const errorRef = useRef(null);
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
 
-  const captchaRef = useRef(null)
+  const [recapcha, setRecapcha] = useState(false);
+  const captchaRef = useRef(null);
+
+  useEffect(() => {
+    console.log(`inside navigate: ${auth?.user}`)
+    if (auth?.user)
+      navigate("/Dashboard", {replace: true});
+  },[])
 
 
   let isTrueLength, hasUpperCase, hasLowerCase, hasNum, format, hasSpecialChar;
@@ -46,17 +54,17 @@ const Login = () => {
     hasSpecialChar = format.test(password);
 
     if (
-      isTrueLength &&
-      hasUpperCase &&
-      hasLowerCase &&
-      hasNum &&
-      hasSpecialChar
-    )
+        isTrueLength &&
+        hasUpperCase &&
+        hasLowerCase &&
+        hasNum &&
+        hasSpecialChar
+    ){
       setIsPasswordValid(true);
-
-    if (isPasswordValid === false)
+      passwordRef.current.style.borderBottom = " 2px solid #13b8609b";
+    }
+    else
       passwordRef.current.style.borderBottom = "2px solid red";
-    else passwordRef.current.style.borderBottom = " 2px solid #b0b3b9";
   };
 
   const handelSubmitClick = async (e) => {
@@ -73,7 +81,6 @@ const Login = () => {
         !hasSpecialChar ? "\nThe password must includes Special chars" : ""
       }`;
     } else {
-      passwordRef.current.style.borderBottom = " 2px solid #13b8609b";
       try {
         const response = await axios.post(
           LOGIN_URL,
@@ -123,14 +130,9 @@ const Login = () => {
           captchaRef.current.reset();
           setRecapcha(false)
         })
-
   }
   const togglePersist = () => {
     setPersist(prev => !prev);
-  }
-
-  const toggleSession = () => {
-    setSession(prev => !prev);
   }
 
   useEffect(() => {
@@ -143,7 +145,7 @@ const Login = () => {
 
   return (
     <div>
-      <form className="login-page" onSubmit={(e) => { handelSubmitClick(e); toggleSession() }}>
+      <form className="login-page" onSubmit={(e) => { handelSubmitClick(e); setSession(true); }}>
         <div className="left">
           <div className="overlay">
             <h2>Nice to have you here</h2>

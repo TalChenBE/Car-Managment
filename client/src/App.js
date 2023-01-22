@@ -7,11 +7,11 @@ import {
   ForgetPassword,
   ResetPassword,
   Signup,
-  ContectUs,
+  ContactUs,
   Dashboard,
   PageNotFound,
 } from "./dev";
-import RequireAuth from "./components/Auth/RequireAuth";
+import { RequireAuth, RequireAuthExistence} from "./components/Auth/RequireAuth";
 import PersistLogin from "./components/PersistLogin/PersistLogin";
 import SessionLogin from "./components/PersistLogin/SessionLogin";
 
@@ -22,11 +22,15 @@ function App() {
       <BrowserRouter>
         <Routes>
           {/* public routes*/}
+          {/*<Route element={<PersistLogin />}>*/}
+          {/*  <Route path="/" element={<Login />} />*/}
+          {/*  <Route path="/Login" element={<Login />} />*/}
+          {/*</Route>*/}
           <Route path="/" element={<Login />} />
           <Route path="/Login" element={<Login />} />
           <Route path="/ForgetPassword" element={<ForgetPassword />} />
           <Route path="/Signup" element={<Signup />} />
-          <Route path="/ContectUs" element={<ContectUs />} />
+          <Route path="/ContactUs" element={<ContactUs />} />
           <Route path="/ResetPassword/:token" element={<ResetPassword />} />
           <Route path="/*" element={<PageNotFound />} />
 

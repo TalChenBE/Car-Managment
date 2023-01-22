@@ -6,6 +6,7 @@ import ReCAPTCHA from "react-google-recaptcha";
 import "./Signup.css";
 
 const SIGNUP_URL = "/register";
+const RECAPCHA_URL = "/recapcha";
 
 const Signin = () => {
   // const { setAuth } = useAuth();
@@ -16,7 +17,9 @@ const Signin = () => {
   const [password, setPassword] = useState(""); // Tt123@
   const [passwordConfirm, setPasswordConfirm] = useState("");
   const [isPasswordValid, setIsPasswordValid] = useState(false);
+  const [recapcha, setRecapcha] = useState(false);
 
+  const captchaRef = useRef(null);
   const firstnameRef = useRef(null);
   const lastnameRef = useRef(null);
   const genderFRef = useRef(null);
@@ -48,17 +51,17 @@ const Signin = () => {
     hasSpecialChar = format.test(password);
 
     if (
-      isTrueLength &&
-      hasUpperCase &&
-      hasLowerCase &&
-      hasNum &&
-      hasSpecialChar
-    )
+        isTrueLength &&
+        hasUpperCase &&
+        hasLowerCase &&
+        hasNum &&
+        hasSpecialChar
+    ){
       setIsPasswordValid(true);
-
-    if (isPasswordValid === false)
+      passwordRef.current.style.borderBottom = " 2px solid #13b8609b";
+    }
+    else
       passwordRef.current.style.borderBottom = "2px solid red";
-    else passwordRef.current.style.borderBottom = " 2px solid #b0b3b9";
   };
 
   const handleChangeConfirmPassword = () => {
@@ -75,8 +78,10 @@ const Signin = () => {
 
   const handelSubmitClick = async (e) => {
     e.preventDefault();
-
-    if (isPasswordValid === false) {
+    if (recapcha === false){
+      errorRef.current.innerText = `Failed in reacapcha - try again`
+    }
+    else if (isPasswordValid === false) {
       errorRef.current.innerText = `ERORR: the password is incorrect!!${
         !isTrueLength ? "\nThe length must be at last 6 chars" : ""
       }${!hasUpperCase ? "\nThe password must includes upper case" : ""}${
@@ -118,6 +123,20 @@ const Signin = () => {
       }
     }
   };
+
+  const handleRecapcha = async () => {
+    const token = captchaRef.current.getValue();
+    await axios.post(RECAPCHA_URL, {token})
+        .then(res =>  {
+          setRecapcha(true);
+          console.log(res)}
+        )
+        .catch((error) => {
+          console.log(error);
+          captchaRef.current.reset();
+          setRecapcha(false)
+        })
+  }
 
   return (
     <div>
@@ -236,6 +255,11 @@ const Signin = () => {
           <div id="confirm-password-text"></div>
           <div ref={errorRef} className="login-error-msg"></div>
           <div className="submit-continer">
+            <ReCAPTCHA
+                sitekey={process.env.REACT_APP_SITE_KEY}
+                ref={captchaRef}
+                onChange={handleRecapcha}
+            />
             <input
               className="submit-button"
               type="submit"
