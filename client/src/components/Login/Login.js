@@ -11,7 +11,7 @@ const RECAPCHA_URL = "/recapcha";
 
 const Login = () => {
   const { auth, setAuth, persist, setPersist, session, setSession } = useAuth();
-
+  const [recapcha, setRecapcha] = useState(false);
   const navigate = useNavigate();
 
   const [cookies, setCookie] = useCookies(["cookie-name"]);
@@ -202,7 +202,7 @@ const Login = () => {
               onChange={handleRecapcha}
             />
           <input className="submit-button" type="submit" value="Submit" />
-
+          </div>
           <span className="link-sign-up">
             Need an account?
             <Link to="/Signup">Sign Up</Link>
