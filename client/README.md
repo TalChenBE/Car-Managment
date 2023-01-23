@@ -1,1 +1,66 @@
-# Car Managment:
+# Car Managment-frontend:
+
+This is a simple website. to view it [click here](https://client-deploy-car-managment.vercel.app/).
+
+## Instalaion:
+
+To run the project first install all the node modules:
+
+```bash
+npm i
+```
+
+OR
+
+```bash
+yarn
+```
+
+To run this ripo you need the bakend side for now it runing in the domain: [Car-Management-Service-Back-end.](https://car-management-back-end.vercel.app/api/)
+
+If you want you can visit the backend side: [MoshPe/Car-Management-Back-end](https://github.com/MoshPe/Car-Management-Back-end), if you take this repo and run it locally then please in the `.env` file change the `REACT_APP_BASE_UR` to the URL that you run it.
+
+Note: we use ReCAPTCHA in our website, than if you want to run it you need to create your one key for your domain.
+
+<br/>
+<br/>
+
+After that you all set and can run the project:
+
+```bash
+npm run start
+```
+
+OR
+
+```bash
+yarn start
+```
+
+## Deployment
+
+This git repo is connected to a vercel account that associated with TalChenBE/Car-Managment github repo. Vercel domain: https://car-managment-tm.vercel.app
+
+#NOTE! !!!The backend requires authentication using JWT so in order to use the service, login is required.!!!
+
+## Project Description
+
+In the src folder, there are 3 main folders:
+
+1. components: this folder contains all the react components we create in this project, the main component that you can find there:
+
+- ContactUs
+- Dashboard
+- ForgetPassword
+- Login
+- Navbar
+- PageNotFound
+- ReastPassword
+- Sidenav
+- Signup
+- Table
+
+2. hooks: this folder contains the custom hooks we created.
+3. utils: the utils of our project
+
+# Enjoy! 😃
