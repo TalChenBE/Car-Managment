@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import thinkMan from "../../utils/icons/thinking-man-icon.png";
 import axios from "../../api/axios";
 import "./ResetPassword.css";
@@ -12,7 +12,9 @@ const ResetPassword = () => {
   const [password, setPassword] = useState(""); // Tt123@
   const [passwordConfirm, setPasswordConfirm] = useState("");
   const [isPasswordValid, setIsPasswordValid] = useState(false);
+  const [isChanged, setIsChanged] = useState(false);
 
+  const navigate = useNavigate();
   const passwordRef = useRef(null);
   const passwordConfirmRef = useRef(null);
   const errorRef = useRef(null);
@@ -49,13 +51,13 @@ const ResetPassword = () => {
   const handleChangeConfirmPassword = () => {
     const element = document.getElementById("confirm-password-text");
     if (passwordConfirm === password) {
-      passwordConfirmRef.current.style.borderBottom = " 2px solid #b0b3b9";
+      passwordConfirmRef.current.style.borderBottom = " 2px solid #13b8609b";
       element.innerHTML = "";
     } else {
       passwordConfirmRef.current.style.borderBottom = "2px solid red";
       element.innerHTML = "The passwords do not match";
     }
-    if (isPasswordValid) {
+    if (!isPasswordValid) {
       element.innerHTML = "Password is not valid";
     }
   };
@@ -80,11 +82,10 @@ const ResetPassword = () => {
           }
         );
         console.log(JSON.stringify(response?.data));
-        errorRef.current.innerText = "Please Check Your Email";
+        errorRef.current.innerText = "Successful";
         errorRef.current.style.background = "#13b8609b";
         errorRef.current.style.color = "#111";
-        const accessToken = response?.data?.accessToken;
-        // setAuth({ email: email, password: password, accessToken });
+        setIsChanged(true);
       } catch (err) {
         console.error(err?.response.data.message);
       }
@@ -136,13 +137,25 @@ const ResetPassword = () => {
         <div id="confirm-password-text"></div>
         <div ref={errorRef} className="forget-password-error-msg"></div>
         <div className="submit-continer">
-          <button
-            className="submit-button"
-            type="submit"
-            onClick={(e) => handelSubmitClick(e)}
-          >
-            Reset Password
-          </button>
+          {
+            isChanged ?
+            <button
+                className="submit-button"
+                type="submit"
+                onClick={(e) => navigate("/Login")}
+            >
+              Go to Login
+            </button>
+              :
+
+                <button
+                    className="submit-button"
+                    type="submit"
+                    onClick={(e) => handelSubmitClick(e)}
+                >
+                  Reset Password
+                </button>
+          }
         </div>
         <span className="link-sign-up">
           <Link to="/Signup">Create an Account!</Link>
