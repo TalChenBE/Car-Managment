@@ -1,6 +1,6 @@
 # Car Managment-frontend:
 
-This is a simple website. to view it [click here](https://client-deploy-car-managment.vercel.app/).
+This is a simple website. to view it [click here](https://car-managment-tm.vercel.app/).
 
 ## Instalaion:
 
