@@ -1,6 +1,7 @@
 # Car Managment-frontend:
 
 This is a simple website. To view it [click here](https://car-managment-tm.vercel.app/).
+The car management service allows car owners to manage their vehicles' maintenance, repairs, and other related activities.
 
 ## Instalaion:
 
