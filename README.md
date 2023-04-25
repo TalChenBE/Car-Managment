@@ -48,7 +48,7 @@ This git repo is connected to a vercel account that is associated with TalChenBE
 
 In the src folder, there are 3 main folders:
 
-1. components: this folder contains all the react components we create in this project, the main component that you can find there:
+1. `components`: this folder contains all the react components we create in this project, the main component that you can find there:
 
 - ContactUs
 - Dashboard
@@ -61,8 +61,8 @@ In the src folder, there are 3 main folders:
 - Signup
 - Table
 
-2. hooks: this folder contains the custom hooks we created.
-3. utils: the utils of our project
+2. `hooks`: this folder contains the custom hooks we created.
+3. `utils`: the utils of our project
 
 
 # Enjoy! 😃
